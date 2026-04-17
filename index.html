@@ -50,6 +50,7 @@
       color: var(--text);
       background: var(--white);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* ─── HEADER ───────────────────────────────── */
@@ -826,6 +827,9 @@
       .contact-grid { grid-template-columns: 1fr; }
 
       .steps-grid::after { display: none; }
+
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form { padding: 24px 20px; }
 
       .footer-top { flex-direction: column; gap: 36px; }
       .footer-links { gap: 40px; }
