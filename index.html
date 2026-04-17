@@ -138,15 +138,21 @@
       padding: 100px 48px 120px;
       position: relative;
       overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       gap: 64px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-visual {
       flex: 0 0 420px;
       position: relative;
-      z-index: 1;
     }
 
     .hero-visual img,
@@ -807,7 +813,8 @@
 
       section { padding: 60px 24px; }
 
-      .hero { padding: 70px 24px 100px; flex-direction: column; gap: 40px; }
+      .hero { padding: 70px 24px 100px; }
+      .hero-inner { flex-direction: column; gap: 40px; }
       .hero h1 { font-size: 38px; }
       .hero-visual { flex: none; width: 100%; max-width: 420px; margin: 0 auto; }
 
@@ -847,25 +854,27 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-content">
-      <div class="hero-badge"><i data-lucide="map-pin" style="width:14px;height:14px;color:var(--cyan);vertical-align:middle;fill:var(--cyan);"></i> <span>Sugar Land, TX</span> — Serving the Greater Houston Area</div>
-      <h1>Pure Water.<br><em>The Imperial Standard.</em><br>At Home.</h1>
-      <p>Water system installs, filter replacements, and ongoing service from a local team that knows softeners, filtration, and the hard-water reality of Sugar Land homes.</p>
-      <div class="hero-ctas">
-        <a href="#contact" class="btn-primary">Get a Free Quote →</a>
-        <a href="tel:+18320000000" class="btn-ghost"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> (832) 000-0000</a>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge"><i data-lucide="map-pin" style="width:14px;height:14px;color:var(--cyan);vertical-align:middle;fill:var(--cyan);"></i> <span>Sugar Land, TX</span> — Serving the Greater Houston Area</div>
+        <h1>Pure Water.<br><em>The Imperial Standard.</em><br>At Home.</h1>
+        <p>Water system installs, filter replacements, and ongoing service from a local team that knows softeners, filtration, and the hard-water reality of Sugar Land homes.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn-primary">Get a Free Quote →</a>
+          <a href="tel:+18320000000" class="btn-ghost"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> (832) 000-0000</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item"><div class="trust-dot"><i data-lucide="home" style="width:10px;height:10px;"></i></div> Local &amp; Family Owned</div>
+          <div class="trust-item"><div class="trust-dot"><i data-lucide="shield-check" style="width:10px;height:10px;"></i></div> Licensed &amp; Insured</div>
+          <div class="trust-item"><div class="trust-dot"><i data-lucide="zap" style="width:10px;height:10px;"></i></div> Fast Response</div>
+          <div class="trust-item"><div class="trust-dot"><i data-lucide="map-pin" style="width:10px;height:10px;"></i></div> Sugar Land Based</div>
+        </div>
       </div>
-      <div class="hero-trust">
-        <div class="trust-item"><div class="trust-dot"><i data-lucide="home" style="width:10px;height:10px;"></i></div> Local &amp; Family Owned</div>
-        <div class="trust-item"><div class="trust-dot"><i data-lucide="shield-check" style="width:10px;height:10px;"></i></div> Licensed &amp; Insured</div>
-        <div class="trust-item"><div class="trust-dot"><i data-lucide="zap" style="width:10px;height:10px;"></i></div> Fast Response</div>
-        <div class="trust-item"><div class="trust-dot"><i data-lucide="map-pin" style="width:10px;height:10px;"></i></div> Sugar Land Based</div>
+      <div class="hero-visual">
+        <video autoplay muted loop playsinline preload="auto" poster="hero-pour-poster.jpg" aria-label="Pure filtered water pouring into a glass">
+          <source src="hero-pour.mp4" type="video/mp4">
+        </video>
       </div>
-    </div>
-    <div class="hero-visual">
-      <video autoplay muted loop playsinline preload="auto" aria-label="Pure filtered water pouring into a glass">
-        <source src="hero-pour.mp4" type="video/mp4">
-      </video>
     </div>
   </section>
 
