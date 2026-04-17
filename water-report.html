@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Local Water Report | Imperial Water Co. — Sugar Land TX</title>
+  <meta name="description" content="Enter your ZIP code and get a free personalized water quality report for your area — contaminants, hardness, violations, and a treatment recommendation specific to Fort Bend County.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imperial-water.vercel.app/water-report.html">
+  <meta property="og:title" content="Your Local Water Report | Imperial Water Co. — Sugar Land TX">
+  <meta property="og:description" content="Free ZIP-based water quality report for Fort Bend County. See what's in your water — contaminants, hardness, violations — and get a treatment recommendation.">
+  <meta property="og:image" content="https://imperial-water.vercel.app/og-image.png">
+  <meta property="og:site_name" content="Imperial Water Co.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo-mark.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ZIP form components */
+    .zip-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .zip-input { font-family: 'DM Sans', sans-serif; font-size: 16px; padding: 14px 20px; border-radius: 9px; border: 1px solid var(--border); outline: none; flex: 1; min-width: 200px; max-width: 300px; }
+    .zip-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,111,168,0.15); }
+    .zip-btn { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; padding: 14px 28px; background: var(--green); color: white; border: none; border-radius: 9px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .zip-btn:hover { background: #22a074; }
+    .hero .zip-input { background: rgba(255,255,255,0.95); }
+
+    /* Hero layout adjustment for this page */
+    .report-hero {
+      padding: 80px 48px;
+      text-align: center;
+    }
+    .report-hero .hero-content {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .report-hero .zip-form {
+      justify-content: center;
+    }
+
+    /* Sample report card */
+    .sample-report-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      box-shadow: 0 2px 16px rgba(13,44,71,0.07);
+    }
+    .sample-report-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sample-badge {
+      display: inline-block;
+      background: var(--cyan-light);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-left: 6px;
+    }
+    .contaminant-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .contaminant-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .contaminant-name {
+      flex: 1;
+    }
+    .status-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .pill-red    { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .pill-amber  { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+    .pill-yellow { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
+    .pill-green  { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+    /* CTA section zip form centered */
+    .service-area .zip-form {
+      justify-content: center;
+    }
+    .service-area .zip-input {
+      background: rgba(255,255,255,0.95);
+    }
+    .service-area .zip-form-note {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 20px;
+    }
+
+    /* Stats styling for this page */
+    .stat-row-wide {
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 40px auto 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .stat-row-wide .stat-item {
+      flex: 1;
+      min-width: 160px;
+      padding: 36px 24px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-row-wide .stat-item:last-child {
+      border-right: none;
+    }
+    .stat-row-wide .stat-num {
+      font-family: 'Oswald', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .stat-row-wide .stat-label {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    .data-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-light);
+      margin-top: 28px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Why-visual dark card layout for recommendation */
+    .why-visual .why-point {
+      margin-top: 20px;
+    }
+    .why-visual .why-point:first-of-type {
+      margin-top: 28px;
+    }
+    .why-visual p.intro {
+      color: rgba(255,255,255,0.75);
+      font-size: 15px;
+      line-height: 1.65;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo-mark.png" alt="Imperial Water Co." class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-name">Imperial Water Co.</span>
+        <span class="logo-sub">Sugar Land, TX</span>
+      </div>
+    </a>
+    <nav>
+      <a href="services.html">Services</a>
+      <a href="why-water.html">Why Water Quality</a>
+      <a href="maintenance.html">Maintenance Plans</a>
+      <a href="water-report.html">Your Water Report</a>
+      <a href="index.html#contact" class="header-cta"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> Call for a Quote</a>
+    </nav>
+  </header>
+
+  <!-- SECTION 1: PAGE HERO -->
+  <section class="hero report-hero">
+    <div class="hero-content">
+      <div class="section-label">Free Water Quality Report</div>
+      <h1>What's Actually<br><em>In Your Water?</em></h1>
+      <p>Enter your ZIP code and get a personalized look at your local water quality — common contaminants, municipal violations, and what we'd recommend for your home.</p>
+      <form class="zip-form" onsubmit="return false;">
+        <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
+        <button class="zip-btn" type="submit">Check My Water →</button>
+      </form>
+      <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:12px;">Free · No account required · Covers Fort Bend County &amp; surrounding areas</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: HOW IT WORKS -->
+  <section style="background: var(--off-white);">
+    <div class="section-header">
+      <div class="section-label">The Report</div>
+      <h2 class="section-title">Know Before You Drink</h2>
+    </div>
+    <div class="steps-grid">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Enter Your ZIP</h3>
+        <p>We pull your area's water quality data from public EPA and municipal records — updated regularly so you're seeing current conditions, not last year's picture.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>See What's In It</h3>
+        <p>Your personalized report shows detected contaminants, hardness levels, any system violations, and how your water stacks up against EPA maximum contaminant levels (MCLs).</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Get A Recommendation</h3>
+        <p>Based on your results, we'll tell you exactly what treatment we'd recommend — and what it costs. No pressure, no upsell. Just clarity about what your water actually needs.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: WHAT THE REPORT COVERS -->
+  <section style="background: var(--white);">
+    <div class="section-header">
+      <div class="section-label">Report Includes</div>
+      <h2 class="section-title">Your Full Water Profile</h2>
+    </div>
+    <div class="services services-grid">
+
+      <div class="service-card">
+        <div class="service-icon icon-blue">
+          <i data-lucide="test-tube"></i>
+        </div>
+        <h3>Detected Contaminants</h3>
+        <p>See what's actually showing up in your ZIP's water — PFAS, nitrates, heavy metals, disinfection byproducts, and more. Every result is compared against EPA maximum contaminant levels (MCLs) so you know where you stand.</p>
+        <ul class="service-detail-list">
+          <li>PFAS / Forever Chemicals</li>
+          <li>Lead &amp; Heavy Metals</li>
+          <li>Nitrates &amp; Nitrites</li>
+          <li>Disinfection Byproducts</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon icon-cyan">
+          <i data-lucide="gauge"></i>
+        </div>
+        <h3>Hardness &amp; Minerals</h3>
+        <p>Fort Bend County water is consistently hard. Your report shows your area's hardness rating in grains per gallon and what that means for your appliances, your pipes, and your skin — in plain language.</p>
+        <ul class="service-detail-list">
+          <li>Water hardness (GPG)</li>
+          <li>Calcium &amp; magnesium levels</li>
+          <li>Scale risk assessment</li>
+          <li>Appliance impact estimate</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon icon-green">
+          <i data-lucide="shield"></i>
+        </div>
+        <h3>Violations &amp; Compliance</h3>
+        <p>Any public health violations in your water system over the past 3 years — most go unreported in local news. You have a right to know, and your report surfaces them clearly.</p>
+        <ul class="service-detail-list">
+          <li>Health-based violations</li>
+          <li>Monitoring violations</li>
+          <li>System infrastructure issues</li>
+          <li>Historical trend</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: SAMPLE RESULTS -->
+  <section style="background: var(--off-white);">
+    <div class="section-header">
+      <div class="section-label">Example Report</div>
+      <h2 class="section-title">Here's What A Report Looks Like</h2>
+      <p class="section-sub">This is a static illustration using real Fort Bend County water data. Your results may vary by ZIP and neighborhood infrastructure.</p>
+    </div>
+    <div class="why why-grid">
+
+      <!-- LEFT: sample report card -->
+      <div>
+        <div class="sample-report-card">
+          <div class="sample-report-header">
+            <i data-lucide="map-pin" style="width:16px;height:16px;color:var(--blue);flex-shrink:0;"></i>
+            ZIP: 77478 — Sugar Land, TX
+            <span class="sample-badge">Sample</span>
+          </div>
+          <ul class="contaminant-list">
+            <li class="contaminant-item">
+              <span class="contaminant-name">PFAS (Total)</span>
+              <span class="status-pill pill-amber">DETECTED</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Water Hardness</span>
+              <span class="status-pill pill-amber">HIGH — 18 GPG</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Chloramine</span>
+              <span class="status-pill pill-yellow">WITHIN LIMITS</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Lead</span>
+              <span class="status-pill pill-green">WITHIN LIMITS</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Nitrates</span>
+              <span class="status-pill pill-green">WITHIN LIMITS</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">DBPs (THMs)</span>
+              <span class="status-pill pill-amber">ELEVATED</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT: dark recommendation card -->
+      <div class="why-visual">
+        <h3>Based On This Sample</h3>
+        <p class="intro">Imperial Water would recommend a whole-home carbon filter for chloramines and DBPs, an RO system for drinking water to address PFAS, and a water softener for the hardness. Here's the breakdown:</p>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="wind"></i>
+          </div>
+          <div>
+            <h4>Whole-Home Carbon Filtration</h4>
+            <p>Removes chloramines and reduces disinfection byproducts at every tap in the house — better water for cooking, bathing, and appliances alike.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="filter"></i>
+          </div>
+          <div>
+            <h4>Under-Sink Reverse Osmosis</h4>
+            <p>RO removes 95–99% of dissolved contaminants — including PFAS and any residual chemicals — from your drinking and cooking water.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="droplets"></i>
+          </div>
+          <div>
+            <h4>Water Softener</h4>
+            <p>At 18 GPG, your water is aggressively hard. A whole-home softener protects appliances, pipes, and fixtures — and pays for itself within 2–4 years.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: FORT BEND COUNTY WATER FACTS -->
+  <section style="background: var(--white);">
+    <div class="section-header">
+      <div class="section-label">Your Area</div>
+      <h2 class="section-title">Fort Bend County Water At A Glance</h2>
+      <p class="section-sub">Data sourced from EWG Tap Water Database and Texas Commission on Environmental Quality (TCEQ).</p>
+    </div>
+
+    <div class="stat-row-wide">
+      <div class="stat-item">
+        <div class="stat-num">Hard</div>
+        <div class="stat-label">Water Classification</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">18 GPG</div>
+        <div class="stat-label">Avg Hardness Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Contaminants Above Health Guidelines</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">PFAS</div>
+        <div class="stat-label">Detected In Local Systems</div>
+      </div>
+    </div>
+
+    <p class="data-note">Data reflects publicly available municipal water quality reports. Your actual water may vary by neighborhood and infrastructure age.</p>
+  </section>
+
+  <!-- SECTION 6: ZIP FORM CTA -->
+  <section class="service-area">
+    <div class="section-header">
+      <div class="section-label">Ready To Know?</div>
+      <h2 class="section-title">Run Your Water Report</h2>
+      <p class="section-sub">Free, instant, and specific to your ZIP. No account, no email required to see your results.</p>
+      <form class="zip-form" onsubmit="return false;">
+        <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
+        <button class="zip-btn" type="submit">Check My Water →</button>
+      </form>
+      <p class="zip-form-note">Prefer to talk? Call Kurt at <a href="tel:+18320000000" style="color:rgba(255,255,255,0.75); text-decoration: underline;">(832) 000-0000</a></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">
+        <div class="logo">
+          <img src="logo-mark.png" alt="Imperial Water Co." class="logo-mark" style="filter: brightness(0) invert(1); opacity: 0.85;">
+          <div class="logo-text">
+            <span class="logo-name">Imperial Water Co.</span>
+            <span class="logo-sub">Sugar Land, TX</span>
+          </div>
+        </div>
+        <p class="footer-tagline">Local water system experts serving Fort Bend County and the greater southwest Houston area.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html">All Services</a></li>
+            <li><a href="maintenance.html">Maintenance Plans</a></li>
+            <li><a href="water-report.html">Your Water Report</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="why-water.html">Why Water Quality</a></li>
+            <li><a href="gallery.html">Before &amp; After</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18320000000">(832) 000-0000</a></li>
+            <li><a href="mailto:kurt@imperialwaterco.com">kurt@imperialwaterco.com</a></li>
+            <li><a href="index.html#service-area">Sugar Land, TX</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Imperial Water Co. All rights reserved.</span>
+      <span>Site by <a href="https://chriskelley.io">CK Consulting</a></span>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

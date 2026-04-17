@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Before &amp; After Gallery | Imperial Water Co. — Sugar Land TX</title>
+  <meta name="description" content="See real before and after results from Imperial Water Co. customers in Sugar Land and Fort Bend County. Water softeners, RO systems, filter replacements — and leave your own Google review.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imperial-water.vercel.app/gallery.html">
+  <meta property="og:title" content="Before &amp; After Gallery | Imperial Water Co. — Sugar Land TX">
+  <meta property="og:description" content="Real results from real homes. See before and after photos from Imperial Water Co. customers across Fort Bend County.">
+  <meta property="og:image" content="https://imperial-water.vercel.app/og-image.png">
+  <meta property="og:site_name" content="Imperial Water Co.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo-mark.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ── Gallery — page-specific ── */
+
+    /* Hero: centered, no video */
+    .gallery-hero {
+      text-align: center;
+    }
+    .gallery-hero .hero-content {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .gallery-hero .hero-ctas {
+      justify-content: center;
+    }
+    .gallery-hero .hero p {
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Gallery grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    /* Gallery placeholder card */
+    .gallery-placeholder {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .gallery-placeholder span {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* Gallery note */
+    .gallery-note {
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    /* Steps section — How to Share Photos */
+    .share-steps { background: var(--white); }
+
+    .share-steps .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    /* Submission form section */
+    .submission-section { background: var(--off-white); }
+
+    .submission-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .submission-inner .section-label,
+    .submission-inner .section-title,
+    .submission-inner .section-sub {
+      text-align: center;
+    }
+
+    .submission-inner .section-sub {
+      margin: 0 auto 40px;
+    }
+
+    /* File input styling */
+    .file-input-wrapper {
+      position: relative;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      padding: 10px 14px;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-mid);
+      background: white;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .file-input-wrapper input[type="file"]:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,111,168,0.1);
+    }
+
+    /* Form textarea override for this page */
+    .submission-inner .form-group textarea {
+      min-height: 80px;
+    }
+
+    /* Google Review CTA section */
+    .review-cta {
+      text-align: center;
+    }
+
+    .review-cta .section-label { color: var(--cyan); }
+    .review-cta .section-title { color: white; }
+    .review-cta .section-sub {
+      color: rgba(255,255,255,0.65);
+      margin: 0 auto 40px;
+    }
+
+    .btn-review {
+      background: var(--green);
+      color: white;
+      padding: 18px 40px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-review:hover {
+      background: #22a074;
+      transform: translateY(-2px);
+    }
+
+    .review-hint {
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .review-cta .stat-row {
+      max-width: 480px;
+      margin: 48px auto 0;
+    }
+
+    /* Why Reviews section */
+    .why-reviews { background: var(--white); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .share-steps .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .share-steps .steps-grid::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo-mark.png" alt="Imperial Water Co." class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-name">Imperial Water Co.</span>
+        <span class="logo-sub">Sugar Land, TX</span>
+      </div>
+    </a>
+    <nav>
+      <a href="services.html">Services</a>
+      <a href="why-water.html">Why Water Quality</a>
+      <a href="maintenance.html">Maintenance Plans</a>
+      <a href="water-report.html">Your Water Report</a>
+      <a href="index.html#contact" class="header-cta"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> Call for a Quote</a>
+    </nav>
+  </header>
+
+
+  <!-- SECTION 1: PAGE HERO -->
+  <section class="hero gallery-hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>Customer Results</span>
+      </div>
+      <h1>Before &amp; After.<br><em>Real Homes. Real Water.</em></h1>
+      <p>See what Imperial Water Co. has done for homes across Sugar Land and Fort Bend County — and share your own results.</p>
+      <div class="hero-ctas">
+        <a href="#submit-photos" class="btn-primary">Share Your Photos &rarr;</a>
+        <a href="#google-review" class="btn-ghost">Leave a Google Review</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 2: GALLERY PLACEHOLDER -->
+  <section class="services">
+    <div class="section-header">
+      <div class="section-label">Customer Photos</div>
+      <h2 class="section-title">Results From The Field</h2>
+      <p class="section-sub">Photos submitted by real Imperial Water Co. customers. Before and after installs, filter replacements, and system upgrades.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-placeholder">
+        <i data-lucide="image" style="width:40px;height:40px;color:var(--border);"></i>
+        <span>Photo coming soon</span>
+      </div>
+      <div class="gallery-placeholder">
+        <i data-lucide="image" style="width:40px;height:40px;color:var(--border);"></i>
+        <span>Photo coming soon</span>
+      </div>
+      <div class="gallery-placeholder">
+        <i data-lucide="image" style="width:40px;height:40px;color:var(--border);"></i>
+        <span>Photo coming soon</span>
+      </div>
+      <div class="gallery-placeholder">
+        <i data-lucide="image" style="width:40px;height:40px;color:var(--border);"></i>
+        <span>Photo coming soon</span>
+      </div>
+      <div class="gallery-placeholder">
+        <i data-lucide="image" style="width:40px;height:40px;color:var(--border);"></i>
+        <span>Photo coming soon</span>
+      </div>
+      <div class="gallery-placeholder">
+        <i data-lucide="image" style="width:40px;height:40px;color:var(--border);"></i>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+
+    <p class="gallery-note">Photos are submitted by customers and verified before publishing. Have a photo to share? See the form below.</p>
+  </section>
+
+
+  <!-- SECTION 3: HOW TO SHARE PHOTOS -->
+  <section class="share-steps">
+    <div style="max-width:1280px;margin:0 auto;">
+      <div class="section-header" style="text-align:center;">
+        <div class="section-label">Share Your Results</div>
+        <h2 class="section-title">Got A Before &amp; After?</h2>
+        <p class="section-sub" style="margin:0 auto;">Snap a photo before your install or service — and another after. We'd love to share your results (with your permission).</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Take A Photo</h3>
+          <p>Before we start, snap a quick photo of your current setup — faucet, filter housing, water color, whatever shows the problem. Then another after we're done.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Submit Below</h3>
+          <p>Use the form below to upload your photos and add a short note. Your name is optional — we can keep it anonymous if you prefer.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>We'll Post It</h3>
+          <p>After a quick review, we'll add it to the gallery. If you want to be featured, we'll link it to your Google review too.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 4: PHOTO SUBMISSION FORM -->
+  <section class="submission-section" id="submit-photos">
+    <div class="submission-inner">
+      <div class="section-label">Submit Your Photos</div>
+      <h2 class="section-title">Share Your Experience</h2>
+      <p class="section-sub">All fields optional except photos. We review everything before publishing.</p>
+
+      <div class="contact-form">
+        <h3>Before &amp; After Submission</h3>
+        <p>All fields optional except photos. We review everything before publishing.</p>
+
+        <form action="#" method="post" enctype="multipart/form-data">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first_name" placeholder="Jane">
+            </div>
+            <div class="form-group">
+              <label for="city">City / Neighborhood</label>
+              <input type="text" id="city" name="city" placeholder="Sugar Land">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="service-type">What service did we do?</label>
+            <select id="service-type" name="service_type">
+              <option value="" disabled selected>Select a service&hellip;</option>
+              <option value="softener">Water Softener Install</option>
+              <option value="ro">RO System Install</option>
+              <option value="filter">Filter Replacement</option>
+              <option value="full">Full System Install</option>
+              <option value="repair">Service &amp; Repair</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="photos">Upload your photos</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="photos" name="photos" accept="image/*" multiple>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="experience">Tell us about your experience (optional)</label>
+            <textarea id="experience" name="experience" placeholder="What was the water like before? How does it look and feel now? Anything you'd tell a neighbor..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-mid);cursor:pointer;">
+              <input type="checkbox" name="permission" style="margin-top:3px;">
+              I give Imperial Water Co. permission to publish these photos on their website.
+            </label>
+          </div>
+
+          <button type="submit" class="form-submit">Submit Photos &rarr;</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 5: GOOGLE REVIEW CTA -->
+  <section class="service-area review-cta" id="google-review">
+    <div class="section-label">Love Your Water?</div>
+    <h2 class="section-title">Tell Your Neighbors</h2>
+    <p class="section-sub">A Google review takes 2 minutes and helps other Sugar Land families find clean water. Kurt reads every one personally.</p>
+
+    <a href="#" class="btn-review">Leave a Google Review &#9733;</a>
+
+    <p class="review-hint">You'll be taken to our Google Business Profile. Takes about 2 minutes.</p>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <span class="stat-num">5 &#9733;</span>
+        <span class="stat-label">Average Rating</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">Sugar Land</span>
+        <span class="stat-label">Local Verified</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">Every Review</span>
+        <span class="stat-label">Read By Kurt</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 6: WHY REVIEWS MATTER -->
+  <section class="why-reviews">
+    <div style="max-width:1280px;margin:0 auto;">
+      <div class="section-label">Community First</div>
+      <h2 class="section-title">Your Review Helps A Neighbor</h2>
+
+      <div class="why-grid" style="margin-top:48px;">
+
+        <!-- LEFT: Why Points -->
+        <div class="why-points">
+          <div class="why-point">
+            <div class="why-icon">
+              <i data-lucide="users" style="width:22px;height:22px;color:var(--blue);"></i>
+            </div>
+            <div>
+              <h4>Help Other Families Find Clean Water</h4>
+              <p>Most people don't know their water has a problem until someone tells them. A review helps Sugar Land families make an informed choice about one of the most important things in their home.</p>
+            </div>
+          </div>
+
+          <div class="why-point">
+            <div class="why-icon">
+              <i data-lucide="star" style="width:22px;height:22px;color:var(--blue);"></i>
+            </div>
+            <div>
+              <h4>Support A Local Business</h4>
+              <p>Imperial Water Co. is locally owned and operated. Every review helps Kurt compete against national chains and franchise operations that don't know this neighborhood.</p>
+            </div>
+          </div>
+
+          <div class="why-point">
+            <div class="why-icon">
+              <i data-lucide="message-square" style="width:22px;height:22px;color:var(--blue);"></i>
+            </div>
+            <div>
+              <h4>It Takes 2 Minutes</h4>
+              <p>You don't have to write a novel. Even a star rating with one sentence makes a real difference for a small business. Kurt will see it and appreciate it.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Why Visual -->
+        <div class="why-visual">
+          <h3>The Imperial Standard Means Earning Every Star</h3>
+          <p>Kurt stands behind every job. If something isn't right, he comes back. That's what a 5-star local business looks like.</p>
+
+          <div class="stat-row">
+            <div class="stat-item">
+              <span class="stat-num">Local</span>
+              <span class="stat-label">Sugar Land Based</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">Every Job</span>
+              <span class="stat-label">Personally Supervised</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">5 &#9733;</span>
+              <span class="stat-label">Goal On Every Visit</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">
+        <div class="logo">
+          <img src="logo-mark.png" alt="Imperial Water Co." class="logo-mark" style="filter: brightness(0) invert(1); opacity: 0.85;">
+          <div class="logo-text">
+            <span class="logo-name">Imperial Water Co.</span>
+            <span class="logo-sub">Sugar Land, TX</span>
+          </div>
+        </div>
+        <p class="footer-tagline">Local water system experts serving Fort Bend County and the greater southwest Houston area.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html">All Services</a></li>
+            <li><a href="maintenance.html">Maintenance Plans</a></li>
+            <li><a href="water-report.html">Your Water Report</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="why-water.html">Why Water Quality</a></li>
+            <li><a href="gallery.html">Before &amp; After</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18320000000">(832) 000-0000</a></li>
+            <li><a href="mailto:kurt@imperialwaterco.com">kurt@imperialwaterco.com</a></li>
+            <li><a href="index.html#service-area">Sugar Land, TX</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Imperial Water Co. All rights reserved.</span>
+      <span>Site by <a href="https://chriskelley.io">CK Consulting</a></span>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

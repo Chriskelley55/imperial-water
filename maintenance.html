@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintenance Plans | Imperial Water Co. — Sugar Land TX</title>
+  <meta name="description" content="Annual and semi-annual water system maintenance plans from Imperial Water Co. in Sugar Land, TX. We track your filters, show up on schedule, and keep your water clean — without you managing a thing.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imperial-water.vercel.app/maintenance.html">
+  <meta property="og:title" content="Maintenance Plans | Imperial Water Co. — Sugar Land TX">
+  <meta property="og:description" content="Annual and semi-annual water system maintenance plans. We handle the filters, inspections, and testing — you just enjoy the water.">
+  <meta property="og:image" content="https://imperial-water.vercel.app/og-image.png">
+  <meta property="og:site_name" content="Imperial Water Co.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo-mark.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* Page-specific extras */
+
+    /* Hero — centered layout */
+    .maintenance-hero {
+      text-align: center;
+      padding: 100px 48px 120px;
+    }
+    .maintenance-hero .hero-content {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+    .maintenance-hero .hero-ctas {
+      justify-content: center;
+    }
+
+    /* Plans section — 2-column card grid */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .plan-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+
+    .plan-card:hover {
+      box-shadow: 0 8px 36px rgba(13,44,71,0.12);
+      transform: translateY(-3px);
+    }
+
+    .plan-card.featured {
+      border-color: var(--green);
+      box-shadow: 0 4px 24px rgba(40,180,133,0.15);
+    }
+
+    .plan-badge {
+      display: inline-block;
+      background: var(--navy);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .plan-subheading {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 14px;
+      margin-top: -6px;
+      font-weight: 500;
+    }
+
+    .plan-cta {
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      display: block;
+      margin-top: 24px;
+      transition: color 0.2s;
+    }
+
+    .plan-cta:hover { color: var(--navy); }
+
+    /* Visit section — reuse .why but on off-white */
+    .visit-section { background: var(--off-white); }
+
+    /* CTA strip — centered content */
+    .cta-strip {
+      text-align: center;
+    }
+    .cta-strip .section-header {
+      max-width: 620px;
+      margin: 0 auto 36px;
+    }
+    .cta-strip .section-sub {
+      max-width: 100%;
+    }
+
+    /* Contact section left-side label/title spacing */
+    .contact-left-header {
+      margin-bottom: 28px;
+    }
+
+    .contact-info-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .maintenance-hero { padding: 70px 24px 100px; }
+      .plans-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo-mark.png" alt="Imperial Water Co." class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-name">Imperial Water Co.</span>
+        <span class="logo-sub">Sugar Land, TX</span>
+      </div>
+    </a>
+    <nav>
+      <a href="services.html">Services</a>
+      <a href="why-water.html">Why Water Quality</a>
+      <a href="maintenance.html">Maintenance Plans</a>
+      <a href="water-report.html">Your Water Report</a>
+      <a href="index.html#contact" class="header-cta"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> Call for a Quote</a>
+    </nav>
+  </header>
+
+  <!-- SECTION 1: PAGE HERO -->
+  <section class="hero maintenance-hero">
+    <div class="hero-content">
+      <h1>Your System,<br><em>Always Protected.</em></h1>
+      <p>Water systems need maintenance just like your HVAC or your car. We track your system, show up when it's time, and make sure your water stays clean — without you having to manage a thing.</p>
+      <div class="hero-ctas">
+        <a href="#plans" class="btn-primary">Join a Maintenance Plan →</a>
+        <a href="tel:+18320000000" class="btn-ghost"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> (832) 000-0000</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: WHY MAINTENANCE MATTERS -->
+  <section style="background: var(--off-white);">
+    <div class="section-header">
+      <div class="section-label">The Case For Regular Service</div>
+      <h2 class="section-title">Filters Don't Last Forever</h2>
+      <p class="section-sub">An expired filter doesn't just stop working — it can become a breeding ground for bacteria. Don't let your water protection expire quietly.</p>
+    </div>
+    <div class="steps-grid">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Filters Expire</h3>
+        <p>Most sediment, carbon, and RO filters last 6–12 months depending on usage. After that, they're not just ineffective — they can harbor bacteria and release contaminants back into the water.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Systems Drift</h3>
+        <p>Pressure drops, connections loosen, and parts wear. A quick inspection every 6–12 months catches small problems before they become expensive repairs.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Water Changes</h3>
+        <p>Municipal water quality shifts seasonally. Well water can change after heavy rain. Regular testing ensures your system is still matched to your actual water.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: MAINTENANCE PLANS -->
+  <section id="plans" style="background: var(--white);">
+    <div class="section-header" style="text-align: center;">
+      <div class="section-label">Service Plans</div>
+      <h2 class="section-title">Pick Your Plan</h2>
+      <p class="section-sub" style="max-width: 480px; margin: 0 auto;">Both plans include all filters, labor, and a system inspection. No surprises on the invoice.</p>
+    </div>
+
+    <div class="plans-grid">
+
+      <!-- Annual Plan -->
+      <div class="plan-card service-card">
+        <div class="service-icon icon-blue">
+          <i data-lucide="calendar"></i>
+        </div>
+        <h3>Annual Plan</h3>
+        <p class="plan-subheading">One visit per year</p>
+        <p>Best for newer systems or homes with lower water usage. We come once a year, do a full filter swap, inspect the system, and test the water.</p>
+        <ul class="service-detail-list">
+          <li>Full filter replacement (all stages)</li>
+          <li>System pressure &amp; flow inspection</li>
+          <li>Water quality spot test</li>
+          <li>Written service report</li>
+          <li>Priority scheduling for repairs</li>
+          <li>Reminder call/text before each visit</li>
+        </ul>
+        <a href="#contact-form" class="plan-cta">Get Started →</a>
+      </div>
+
+      <!-- Semi-Annual Plan (featured) -->
+      <div class="plan-card service-card featured">
+        <span class="plan-badge">Most Popular</span>
+        <div class="service-icon icon-green">
+          <i data-lucide="shield-check"></i>
+        </div>
+        <h3>Semi-Annual Plan</h3>
+        <p class="plan-subheading">Two visits per year</p>
+        <p>Recommended for most homes. Twice-yearly service keeps filters fresh, catches system issues early, and ensures your water quality never lapses.</p>
+        <ul class="service-detail-list">
+          <li>Everything in Annual Plan</li>
+          <li>Two complete filter replacements per year</li>
+          <li>Spring &amp; fall system tune-up</li>
+          <li>Water hardness &amp; pH testing</li>
+          <li>Free service call if anything comes up between visits</li>
+          <li>Same-day response for plan members</li>
+        </ul>
+        <a href="#contact-form" class="plan-cta">Get Started →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: WHAT EACH VISIT INCLUDES -->
+  <section class="visit-section">
+    <div class="section-header">
+      <div class="section-label">Every Visit</div>
+      <h2 class="section-title">What We Do When We Show Up</h2>
+    </div>
+    <div class="why-grid">
+
+      <!-- LEFT: visit details -->
+      <div class="why-points">
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="filter"></i>
+          </div>
+          <div>
+            <h4>Filter Replacement</h4>
+            <p>Every filter stage swapped with OEM-quality replacements. Sediment, carbon block, and RO membrane if due.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="activity"></i>
+          </div>
+          <div>
+            <h4>Pressure &amp; Flow Testing</h4>
+            <p>We check inlet pressure, flow rate, and system output. Low flow is often the first sign of a failing membrane or clogged pre-filter.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="droplets"></i>
+          </div>
+          <div>
+            <h4>Water Quality Check</h4>
+            <p>Quick on-site test for hardness, pH, and TDS (total dissolved solids) — before and after the system. Numbers don't lie.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="search"></i>
+          </div>
+          <div>
+            <h4>Full System Inspection</h4>
+            <p>Every connection, valve, and tank inspected for wear, leaks, or anything that needs attention.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="file-text"></i>
+          </div>
+          <div>
+            <h4>Written Service Report</h4>
+            <p>You get a written summary of what was done, what was replaced, and what to watch for. Kept on file for your records.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: stat card -->
+      <div class="why-visual">
+        <h3>Typically 45–90 Minutes</h3>
+        <p>We work around your schedule. Most visits are done in under an hour and a half — including cleanup.</p>
+        <div class="stat-row">
+          <div class="stat-item">
+            <span class="stat-num">Same Day</span>
+            <span class="stat-label">Reminder Sent</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">45–90 min</span>
+            <span class="stat-label">Average Visit</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Satisfaction Rate</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: SCHEDULE A PLAN -->
+  <section class="contact" id="contact-form">
+    <div class="contact-grid">
+
+      <!-- LEFT: contact info -->
+      <div>
+        <div class="contact-left-header">
+          <div class="section-label">Get On The Schedule</div>
+          <h2 class="section-title">Let's Set It Up</h2>
+          <p class="section-sub">Call, text, or fill out the form. We'll confirm your system details, pick a plan that fits, and get your first visit on the calendar.</p>
+        </div>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <i data-lucide="phone" style="width:20px;height:20px;color:var(--blue);"></i>
+            </div>
+            <div class="contact-item-text">
+              <h4>Phone</h4>
+              <a href="tel:+18320000000">(832) 000-0000</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <i data-lucide="mail" style="width:20px;height:20px;color:var(--blue);"></i>
+            </div>
+            <div class="contact-item-text">
+              <h4>Email</h4>
+              <a href="mailto:kurt@imperialwaterco.com">kurt@imperialwaterco.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <i data-lucide="clock" style="width:20px;height:20px;color:var(--blue);"></i>
+            </div>
+            <div class="contact-item-text">
+              <h4>Hours</h4>
+              <p>Mon–Fri 8am–6pm · Sat by appointment</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: contact form -->
+      <div class="contact-form">
+        <h3>Sign Up For A Plan</h3>
+        <p>We'll reach out to confirm details and schedule your first visit.</p>
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first-name" placeholder="Jane" autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" name="last-name" placeholder="Smith" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="(832) 000-0000" autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="jane@email.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Your Address</label>
+            <input type="text" id="address" name="address" placeholder="123 Main St, Sugar Land TX" autocomplete="street-address">
+          </div>
+          <div class="form-group">
+            <label for="plan">Which plan are you interested in?</label>
+            <select id="plan" name="plan">
+              <option value="">Select a plan…</option>
+              <option value="annual">Annual Plan</option>
+              <option value="semi-annual">Semi-Annual Plan</option>
+              <option value="unsure">Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="system-info">Tell us about your current water system (optional)</label>
+            <textarea id="system-info" name="system-info" placeholder="e.g. We have a whole-home carbon filter and an under-sink RO system installed about 3 years ago. Not sure of the brand."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Request A Plan →</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 6: CTA STRIP -->
+  <section class="service-area cta-strip">
+    <div class="section-header">
+      <h2 class="section-title">Questions Before Committing?</h2>
+      <p class="section-sub">Call Kurt directly — he'll walk you through your system, what it needs, and which plan makes the most sense for your home.</p>
+    </div>
+    <a href="tel:+18320000000" class="btn-ghost">Call (832) 000-0000</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">
+        <div class="logo">
+          <img src="logo-mark.png" alt="Imperial Water Co." class="logo-mark" style="filter: brightness(0) invert(1); opacity: 0.85;">
+          <div class="logo-text">
+            <span class="logo-name">Imperial Water Co.</span>
+            <span class="logo-sub">Sugar Land, TX</span>
+          </div>
+        </div>
+        <p class="footer-tagline">Local water system experts serving Fort Bend County and the greater southwest Houston area.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html">All Services</a></li>
+            <li><a href="maintenance.html">Maintenance Plans</a></li>
+            <li><a href="water-report.html">Your Water Report</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="why-water.html">Why Water Quality</a></li>
+            <li><a href="gallery.html">Before &amp; After</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18320000000">(832) 000-0000</a></li>
+            <li><a href="mailto:kurt@imperialwaterco.com">kurt@imperialwaterco.com</a></li>
+            <li><a href="index.html#service-area">Sugar Land, TX</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Imperial Water Co. All rights reserved.</span>
+      <span>Site by <a href="https://chriskelley.io">CK Consulting</a></span>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
