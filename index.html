@@ -138,6 +138,22 @@
       padding: 100px 48px 120px;
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 64px;
+    }
+
+    .hero-visual {
+      flex: 0 0 420px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 0 80px rgba(0,168,204,0.18);
+      display: block;
     }
 
     .hero::before {
@@ -787,8 +803,9 @@
 
       section { padding: 60px 24px; }
 
-      .hero { padding: 70px 24px 100px; }
+      .hero { padding: 70px 24px 100px; flex-direction: column; gap: 40px; }
       .hero h1 { font-size: 38px; }
+      .hero-visual { flex: none; width: 100%; max-width: 420px; margin: 0 auto; }
 
       .services-grid,
       .steps-grid,
@@ -840,6 +857,9 @@
         <div class="trust-item"><div class="trust-dot"><i data-lucide="zap" style="width:10px;height:10px;"></i></div> Fast Response</div>
         <div class="trust-item"><div class="trust-dot"><i data-lucide="map-pin" style="width:10px;height:10px;"></i></div> Sugar Land Based</div>
       </div>
+    </div>
+    <div class="hero-visual">
+      <img src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=800&q=80" alt="Pure filtered water">
     </div>
   </section>
 
