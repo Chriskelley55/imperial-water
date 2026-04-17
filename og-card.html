@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #0d2c47;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 72px 96px;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0,168,204,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1a6fa8, #00a8cc, #28B485);
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 660px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    width: fit-content;
+    letter-spacing: 0.04em;
+  }
+  .badge span { color: #00a8cc; font-weight: 600; }
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.0;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  h1 em { font-style: italic; color: #7dd4f0; }
+  p {
+    font-size: 22px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+    max-width: 520px;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-mark {
+    width: 140px;
+    height: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+  .logo-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .logo-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="left">
+    <div class="badge">📍 <span>Sugar Land, TX</span> — Greater Houston Area</div>
+    <h1>Clean Water.<br><em>Expert Service.</em></h1>
+    <p>Water system installs, filter replacements, and ongoing service from a local you can actually call.</p>
+  </div>
+  <div class="right">
+    <img src="logo-mark.svg" class="logo-mark" alt="">
+    <div class="logo-name">Imperial Water Co.</div>
+    <div class="logo-sub">Sugar Land, TX</div>
+  </div>
+</body>
+</html>
