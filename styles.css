@@ -109,7 +109,7 @@
     .hero {
       background: linear-gradient(150deg, var(--navy) 0%, var(--navy-mid) 40%, #1d5580 100%);
       color: white;
-      padding: 100px 48px 120px;
+      padding: 72px 48px 90px;
       position: relative;
       overflow: hidden;
     }
@@ -118,7 +118,7 @@
       max-width: 1280px;
       margin: 0 auto;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 64px;
       position: relative;
@@ -126,7 +126,7 @@
     }
 
     .hero-visual {
-      flex: 0 0 420px;
+      flex: 0 0 380px;
       position: relative;
     }
 
@@ -136,7 +136,8 @@
       border-radius: 20px;
       box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 0 80px rgba(0,168,204,0.18);
       display: block;
-      aspect-ratio: 9 / 16;
+      aspect-ratio: 4 / 5;
+      max-height: 400px;
       object-fit: cover;
       background: var(--navy);
     }
