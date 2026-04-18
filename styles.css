@@ -137,7 +137,6 @@
       box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 0 80px rgba(0,168,204,0.18);
       display: block;
       aspect-ratio: 4 / 5;
-      max-height: 400px;
       object-fit: cover;
       background: var(--navy);
     }
