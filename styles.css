@@ -795,10 +795,11 @@
       .hero-visual { flex: none; width: 100%; max-width: 420px; margin: 0 auto; }
 
       .services-grid,
-      .steps-grid,
       .area-grid,
       .why-grid,
       .contact-grid { grid-template-columns: 1fr; }
+
+      .steps-grid { grid-template-columns: 1fr; gap: 40px; }
 
       .steps-grid::after { display: none; }
 
