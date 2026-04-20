@@ -260,6 +260,7 @@ export default async function handler(req, res) {
 
   // ── 1. Send email via Resend ──────────────────────────────────────────────
   let emailSent = false;
+  console.log('send-report: zip=', zip, 'email=', email, 'hasKey=', !!RESEND_KEY);
   if (RESEND_KEY) {
     try {
       const r = await fetch('https://api.resend.com/emails', {
@@ -269,19 +270,17 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from:    'Imperial Water Co. <report@imperialwaterco.com>',
+          from:    'Imperial Water Co. <onboarding@resend.dev>',
           to:      [email],
           subject: `Your Water Quality Report — ZIP ${zip}`,
           html:    buildEmailHTML(zip, reportData || {}),
         }),
       });
+      const resBody = await r.text();
       emailSent = r.ok;
-      if (!r.ok) {
-        const errText = await r.text();
-        console.error('Resend error:', errText);
-      }
+      console.log('Resend status:', r.status, 'body:', resBody);
     } catch (err) {
-      console.error('Resend exception:', err);
+      console.error('Resend exception:', err.message);
     }
   } else {
     console.warn('RESEND_API_KEY not set — email not sent');
