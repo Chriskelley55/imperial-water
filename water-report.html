@@ -93,14 +93,8 @@
     /* Severity pill — critical tier */
     .pill-critical { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
 
-    /* Email gate */
-    .email-gate-card { background:var(--navy); border-radius:14px; padding:44px 36px; text-align:center; color:white; margin-top:24px; }
-    .email-gate-card h3 { font-family:'Oswald',sans-serif; font-size:22px; text-transform:uppercase; letter-spacing:0.03em; color:white; margin-bottom:10px; }
-    .email-gate-card p { font-size:15px; color:rgba(255,255,255,0.72); margin-bottom:24px; max-width:500px; margin-left:auto; margin-right:auto; }
-    .email-gate-form { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:14px; }
-    .email-gate-form .zip-input { background:rgba(255,255,255,0.95); min-width:240px; max-width:280px; }
-    .gate-icon { font-size:28px; margin-bottom:14px; }
-    .gate-note { font-size:12px; color:rgba(255,255,255,0.4); }
+    /* Email input in hero/CTA forms */
+    .email-input { max-width:280px; }
 
     /* Email success */
     .email-success { display:flex; align-items:center; gap:10px; background:rgba(0,168,204,0.1); border:1px solid rgba(0,168,204,0.3); border-radius:10px; padding:16px 20px; color:var(--cyan); font-size:14px; font-weight:500; }
@@ -302,12 +296,13 @@
     <div class="hero-content">
       <div class="section-label">Free Water Quality Report</div>
       <h1>What's Actually<br><em>In Your Water?</em></h1>
-      <p>Enter your ZIP code and get a personalized look at your local water quality — common contaminants, municipal violations, and what we'd recommend for your home.</p>
+      <p>Enter your ZIP and email — we'll show your full water quality report instantly and email you a copy with Kurt's personal recommendation.</p>
       <form class="zip-form" onsubmit="handleZipSubmit(event)">
-        <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
-        <button class="zip-btn" type="submit">Check My Water →</button>
+        <input class="zip-input" type="text" placeholder="ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code" required>
+        <input class="zip-input email-input" type="email" placeholder="your@email.com" aria-label="Email address">
+        <button class="zip-btn" type="submit">Get My Free Report →</button>
       </form>
-      <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:12px;">Free water score · Full assessment emailed instantly · No account required</p>
+      <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:12px;">Free · Instant · No spam — just your report</p>
     </div>
   </section>
 
@@ -521,10 +516,11 @@
     <div class="section-header">
       <div class="section-label">Ready To Know?</div>
       <h2 class="section-title">Run Your Water Report</h2>
-      <p class="section-sub">Enter your ZIP for an instant water score. Enter your email to unlock Kurt's full assessment — free and instant.</p>
+      <p class="section-sub">Full report, instant results, emailed copy — free. No account, no sales call unless you want one.</p>
       <form class="zip-form" onsubmit="handleZipSubmit(event)">
-        <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
-        <button class="zip-btn" type="submit">Check My Water →</button>
+        <input class="zip-input" type="text" placeholder="ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code" required>
+        <input class="zip-input email-input" type="email" placeholder="your@email.com" aria-label="Email address">
+        <button class="zip-btn" type="submit">Get My Free Report →</button>
       </form>
       <p class="zip-form-note">Prefer to talk? Call Kurt at <a href="tel:+17138221308" style="color:rgba(255,255,255,0.75); text-decoration: underline;">(713) 822-1308</a></p>
     </div>
@@ -739,7 +735,7 @@
         </div>`;
     }
 
-    // ── Partial results (zip only) ────────────────────────────────────────────
+    // ── Full results (shown immediately) ─────────────────────────────────────
     function renderResults(data) {
       const { zip, system, contaminants, violations } = data;
       const gpg    = system?.hardness?.max_gpg ?? '—';
@@ -747,8 +743,6 @@
       const score  = calculateScore(contaminants);
       const col    = scoreColor(score);
       const verdict = scoreVerdict(score);
-      const vCount = violations?.length || 0;
-      const vHealth = violations?.filter(v => v.is_health_based)?.length || 0;
 
       return `
         <div class="results-header">
@@ -794,93 +788,47 @@
             </a>
           </div>
 
-          <!-- Violations — count only; detail in email -->
+          <!-- Violations — full detail -->
           <div class="results-card">
             <h3>Violation History <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EPA SDWIS (Live)</span></h3>
-            ${vCount === 0
-              ? `<div class="no-violations"><i data-lucide="check-circle" style="width:18px;height:18px;flex-shrink:0;"></i> No active violations on record.</div>`
-              : `<div style="display:flex;flex-direction:column;gap:10px;">
-                   <div style="font-family:'Oswald',sans-serif;font-size:48px;font-weight:700;color:var(--navy);line-height:1;">${vCount}</div>
-                   <div style="font-size:14px;color:var(--text-mid);">violations on record${vHealth > 0 ? ' · <strong style="color:#dc2626;">' + vHealth + ' health-based</strong>' : ''}</div>
-                   <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Full breakdown included in your email report.</div>
-                 </div>`
-            }
+            ${renderViolations(violations)}
           </div>
 
         </div>
 
-        <!-- Email gate — unlocks Kurt's Assessment -->
-        <div class="email-gate-card" id="email-gate">
-          <div class="gate-icon">🔒</div>
-          <h3>Get Kurt's Full Assessment</h3>
-          <p>Your water scored ${score}/100. Kurt has a specific recommendation for your home — which systems, in what order, and why. We'll email it to you instantly.</p>
-          <form class="email-gate-form" id="email-gate-form" onsubmit="handleEmailSubmit(event)">
-            <input type="email" class="zip-input" id="email-input" placeholder="your@email.com" required>
-            <button class="zip-btn" type="submit" id="email-submit-btn">Get My Full Report →</button>
-          </form>
-          <p class="gate-note">No spam · Instant delivery · Unsubscribe anytime</p>
+        <!-- Kurt's Assessment — immediate, no gate -->
+        ${renderDiagnosis(data)}
+
+        <!-- Email confirmation (shown after send completes) -->
+        <div id="email-sent-note" style="display:none;margin-top:16px;">
+          <div class="email-success">
+            <i data-lucide="mail-check" style="width:18px;height:18px;flex-shrink:0;"></i>
+            <span id="email-sent-text">A copy of this report was sent to your email.</span>
+          </div>
         </div>
 
-        <!-- Diagnosis — hidden until email submitted -->
-        <div id="diagnosis-reveal" style="display:none;"></div>
+        <!-- CTA -->
+        <div class="results-cta" style="margin-top:24px;">
+          <h3>Schedule Your Free Home Assessment</h3>
+          <p>No obligation, no sales pitch. Call or text Kurt and he'll walk you through exactly what your home needs and what it costs.</p>
+          <div class="results-cta-btns">
+            <a href="tel:+17138221308" class="btn-primary">Call Kurt — (713) 822-1308</a>
+            <a href="index.html#contact" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:white;">Request a Quote Online →</a>
+          </div>
+        </div>
       `;
     }
 
-    // ── Email submit → unlock diagnosis + fire API ────────────────────────────
-    async function handleEmailSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('email-input')?.value?.trim();
-      if (!email) return;
-
-      const btn = document.getElementById('email-submit-btn');
-      btn.textContent = 'Sending…';
-      btn.disabled = true;
-
-      // Fire and forget — don't block the UI reveal
-      fetch('/api/send-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, zip: _reportZip, reportData: _reportData }),
-      }).catch(() => {});
-
-      // Swap gate card for success message
-      const gateEl = document.getElementById('email-gate');
-      if (gateEl) {
-        gateEl.outerHTML = `
-          <div style="margin-top:24px;">
-            <div class="email-success">
-              <i data-lucide="mail-check" style="width:18px;height:18px;flex-shrink:0;"></i>
-              Report sent to <strong style="margin-left:4px;">${email}</strong> — check your inbox.
-            </div>
-          </div>`;
-      }
-
-      // Reveal diagnosis + CTA
-      const revealEl = document.getElementById('diagnosis-reveal');
-      if (revealEl && _reportData) {
-        revealEl.style.display = 'block';
-        revealEl.innerHTML = renderDiagnosis(_reportData) + `
-          <div class="results-cta" style="margin-top:24px;">
-            <h3>Schedule Your Free Home Assessment</h3>
-            <p>No obligation, no sales pitch. Call or text Kurt and he'll walk you through exactly what your home needs and what it costs.</p>
-            <div class="results-cta-btns">
-              <a href="tel:+17138221308" class="btn-primary">Call Kurt — (713) 822-1308</a>
-              <a href="index.html#contact" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:white;">Request a Quote Online →</a>
-            </div>
-          </div>`;
-        lucide.createIcons();
-        revealEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-
-    // ── ZIP submit ────────────────────────────────────────────────────────────
+    // ── Submit: ZIP + optional email → instant full report ────────────────────
     async function handleZipSubmit(e) {
       e.preventDefault();
-      const form  = e.target;
-      const input = form.querySelector('.zip-input');
-      const zip   = input?.value?.trim();
+      const form       = e.target;
+      const zipInput   = form.querySelector('[inputmode="numeric"]');
+      const emailInput = form.querySelector('.email-input');
+      const zip        = zipInput?.value?.trim();
+      const email      = emailInput?.value?.trim() || null;
 
-      if (!zip || !/^\d{5}$/.test(zip)) { input?.focus(); return; }
+      if (!zip || !/^\d{5}$/.test(zip)) { zipInput?.focus(); return; }
 
       _reportZip  = zip;
       _reportData = null;
@@ -913,6 +861,23 @@
         _reportData = data;
         resultsContent.innerHTML = renderResults(data);
         lucide.createIcons();
+
+        // Fire email in background if provided — don't block render
+        if (email) {
+          fetch('/api/send-report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, zip, reportData: data }),
+          }).then(r => {
+            if (r.ok) {
+              const note = document.getElementById('email-sent-note');
+              const txt  = document.getElementById('email-sent-text');
+              if (note) { note.style.display = 'block'; }
+              if (txt)  { txt.textContent = `A copy of this report was sent to ${email}.`; }
+              lucide.createIcons();
+            }
+          }).catch(() => {});
+        }
 
       } catch (err) {
         resultsContent.innerHTML = `
