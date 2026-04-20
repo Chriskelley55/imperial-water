@@ -65,7 +65,21 @@
     .error-state { text-align: center; padding: 48px 24px; color: var(--text-mid); }
     .contaminant-category { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light); margin-top: 20px; margin-bottom: 10px; }
     .contaminant-category:first-child { margin-top: 0; }
-    @media (max-width: 700px) { .results-grid { grid-template-columns: 1fr; } .results-card.full-width { grid-column: 1; } }
+    /* Diagnosis card */
+    .diagnosis-card { background: var(--navy); border-radius: 14px; padding: 36px; margin-top: 24px; color: white; }
+    .diagnosis-card h3 { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan); margin-bottom: 8px; }
+    .diagnosis-intro { font-size: 20px; font-weight: 600; color: white; line-height: 1.35; margin-bottom: 28px; max-width: 640px; }
+    .diagnosis-items { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
+    .diagnosis-item { display: flex; gap: 18px; align-items: flex-start; }
+    .diagnosis-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,168,204,0.2); border: 1px solid rgba(0,168,204,0.4); color: var(--cyan); font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .diagnosis-item-title { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: white; margin-bottom: 5px; }
+    .diagnosis-item-body { font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.6; }
+    .diagnosis-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 28px 0; }
+    .diagnosis-why { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .diagnosis-why-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.7); }
+    .diagnosis-why-icon { color: var(--cyan); flex-shrink: 0; margin-top: 1px; }
+    .diagnosis-why-item strong { display: block; color: white; font-size: 13px; margin-bottom: 2px; }
+    @media (max-width: 700px) { .results-grid { grid-template-columns: 1fr; } .results-card.full-width { grid-column: 1; } .diagnosis-why { grid-template-columns: 1fr; } }
 
     /* ZIP form components */
     .zip-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -638,16 +652,118 @@
 
         </div>
 
+        ${renderDiagnosis(data)}
+
         <!-- CTA -->
-        <div class="results-cta">
-          <h3>Ready to Fix It?</h3>
-          <p>Based on ${system?.area || 'your area'}'s water profile, Kurt can recommend the right system for your home — usually a whole-home carbon filter, an RO system, and a softener. Free quote, no pressure.</p>
+        <div class="results-cta" style="margin-top:24px;">
+          <h3>Get a Free Quote</h3>
+          <p>No obligation, no sales pitch. Call or text Kurt and he'll walk you through exactly what your home needs and what it costs.</p>
           <div class="results-cta-btns">
             <a href="tel:+17138221308" class="btn-primary">Call Kurt — (713) 822-1308</a>
             <a href="index.html#contact" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:white;">Request a Quote Online →</a>
           </div>
         </div>
       `;
+    }
+
+    function buildRecommendations(data) {
+      const { contaminants = [], system } = data;
+      const cats = new Set(contaminants.map(c => c.category));
+      const hardness = system?.hardness?.max_gpg || 0;
+      const recs = [];
+
+      const hasPFAS   = cats.has('pfas');
+      const hasMetal  = cats.has('heavy_metal');
+      const hasNitrate= cats.has('nitrate');
+      const hasRadio  = cats.has('radionuclide');
+      const hasDBP    = cats.has('disinfection_byproduct');
+      const isHard    = hardness > 7;
+
+      // Priority 1 — RO (addresses the most concerning dissolved contaminants)
+      if (hasPFAS || hasMetal || hasNitrate || hasRadio) {
+        const targets = [
+          hasPFAS   && 'PFAS',
+          hasMetal  && 'heavy metals',
+          hasNitrate&& 'nitrates',
+          hasRadio  && 'uranium',
+        ].filter(Boolean);
+        recs.push({
+          title: 'Under-Sink Reverse Osmosis System',
+          body: `Your report shows ${targets.join(', ')} — all dissolved contaminants that standard filters don't catch. RO pushes water through a semipermeable membrane that removes 95–99% of these at the source. I put this first because it's what protects your family at the tap you drink from every day.`,
+        });
+      }
+
+      // Priority 2 — Whole-home carbon (DBPs)
+      if (hasDBP) {
+        recs.push({
+          title: 'Whole-Home Carbon Filtration',
+          body: `Your disinfection byproduct levels — THMs and HAAs — are significantly above health guidelines. These form when chlorine reacts with organic matter in your water, and they come out of every tap in the house. A whole-home carbon filter at the main line catches them before they reach your shower, your laundry, and your kids' bath.`,
+        });
+      }
+
+      // Priority 3 — Softener
+      if (isHard) {
+        const severity = hardness > 15 ? 'aggressively' : hardness > 10 ? 'significantly' : 'notably';
+        recs.push({
+          title: 'Water Softener',
+          body: `At ${hardness} GPG, your water is ${severity} hard. That's scale building inside your water heater, on your pipes, and in your fixtures. It shortens appliance life, leaves your skin dry, and costs you money on soaps and detergents. A whole-home softener fixes all of it and typically pays for itself in 2–4 years.`,
+        });
+      }
+
+      if (recs.length === 0) {
+        recs.push({
+          title: 'Baseline Filtration',
+          body: 'Your water looks relatively clean based on available data, but that doesn\'t mean it\'s perfect. A basic filtration setup is still a smart move for taste, odor, and peace of mind.',
+        });
+      }
+
+      return recs;
+    }
+
+    function renderDiagnosis(data) {
+      const recs = buildRecommendations(data);
+      const area = data.system?.area || 'your area';
+      const intro = recs.length >= 3
+        ? `Your ${area} water has three issues worth addressing. Here's how I'd approach it — in priority order.`
+        : recs.length === 2
+        ? `Your ${area} water has two things I'd fix. Here's the plan.`
+        : `Your ${area} water is in decent shape, but there's one thing I'd address first.`;
+
+      const itemsHtml = recs.map((r, i) => `
+        <div class="diagnosis-item">
+          <div class="diagnosis-num">${i + 1}</div>
+          <div>
+            <div class="diagnosis-item-title">${r.title}</div>
+            <div class="diagnosis-item-body">${r.body}</div>
+          </div>
+        </div>`).join('');
+
+      return `
+        <div class="diagnosis-card">
+          <h3>Kurt's Assessment</h3>
+          <div class="diagnosis-intro">${intro}</div>
+          <div class="diagnosis-items">${itemsHtml}</div>
+          <div class="diagnosis-divider"></div>
+          <div style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--cyan);margin-bottom:14px;">Why Imperial Water Co.</div>
+          <div class="diagnosis-why">
+            <div class="diagnosis-why-item">
+              <i data-lucide="map-pin" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
+              <div><strong>We know Sugar Land water</strong>We've seen these exact contaminant profiles in homes across Fort Bend County. No guessing — we know what your water does to appliances, pipes, and people over time.</div>
+            </div>
+            <div class="diagnosis-why-item">
+              <i data-lucide="phone" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
+              <div><strong>You get Kurt — not a call center</strong>When you call, I answer. When something needs adjusting six months later, I come back. That's how I run this business.</div>
+            </div>
+            <div class="diagnosis-why-item">
+              <i data-lucide="shield-check" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
+              <div><strong>Licensed, insured, no surprises</strong>Every job is quoted before we start. You know the price, the scope, and what to expect — before anyone touches a pipe.</div>
+            </div>
+            <div class="diagnosis-why-item">
+              <i data-lucide="settings-2" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
+              <div><strong>We install, service, and follow up</strong>We don't just sell you a system. We set it up right, test it, show you how it works, and stay on call when it's time for maintenance.</div>
+            </div>
+          </div>
+        </div>`;
     }
 
     async function handleZipSubmit(e) {
