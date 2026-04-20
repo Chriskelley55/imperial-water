@@ -38,6 +38,9 @@ function calculateScore(contaminants) {
 
 function buildEmailHTML(zip, reportData) {
   const { system = {}, contaminants = [], violations = [] } = reportData;
+  const areaShort   = (system.area || 'your area').replace(/\s*\(.*?\)\s*/, '').trim() || 'your area';
+  const isFortBend  = ['Sugar Land', 'River Park', 'Greatwood', 'New Territory', 'Missouri City', 'Richmond'].some(n => areaShort.includes(n));
+  const localRegion = isFortBend ? 'Fort Bend County' : 'the greater Houston region';
 
   const score      = calculateScore(contaminants);
   const scoreColor = score >= 80 ? '#16a34a' : score >= 60 ? '#d97706' : score >= 40 ? '#ea580c' : score >= 20 ? '#dc2626' : '#991b1b';
@@ -203,8 +206,8 @@ function buildEmailHTML(zip, reportData) {
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td style="vertical-align:top;padding-right:16px;width:50%;">
-                  <div style="font-size:13px;font-weight:600;color:white;margin-bottom:4px;">📍 We know Sugar Land water</div>
-                  <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">We've seen these exact contaminant profiles across Fort Bend County. No guessing.</div>
+                  <div style="font-size:13px;font-weight:600;color:white;margin-bottom:4px;">📍 We know ${areaShort} water</div>
+                  <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">We've seen these exact contaminant profiles across ${localRegion}. No guessing.</div>
                 </td>
                 <td style="vertical-align:top;padding-left:16px;width:50%;">
                   <div style="font-size:13px;font-weight:600;color:white;margin-bottom:4px;">📞 You get Kurt — not a call center</div>

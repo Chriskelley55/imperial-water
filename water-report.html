@@ -705,7 +705,10 @@
 
     function renderDiagnosis(data) {
       const recs = buildRecommendations(data);
-      const area = data.system?.area || 'your area';
+      const area     = data.system?.area || 'your area';
+      const areaShort = area.replace(/\s*\(.*?\)\s*/, '').trim() || area;
+      const isFortBend = ['Sugar Land', 'River Park', 'Greatwood', 'New Territory', 'Missouri City', 'Richmond'].some(n => areaShort.includes(n));
+      const localRegion = isFortBend ? 'Fort Bend County' : 'the greater Houston region';
       const intro = recs.length >= 3
         ? `Your ${area} water has three issues worth addressing. Here's how I'd approach it — in priority order.`
         : recs.length === 2
@@ -727,7 +730,7 @@
           <div class="diagnosis-divider"></div>
           <div style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--cyan);margin-bottom:14px;">Why Imperial Water Co.</div>
           <div class="diagnosis-why">
-            <div class="diagnosis-why-item"><i data-lucide="map-pin" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>We know Sugar Land water</strong>We've seen these exact contaminant profiles in homes across Fort Bend County. No guessing — we know what your water does to appliances, pipes, and people over time.</div></div>
+            <div class="diagnosis-why-item"><i data-lucide="map-pin" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>We know ${areaShort} water</strong>We've seen these exact contaminant profiles in homes across ${localRegion}. No guessing — we know what your water does to appliances, pipes, and people over time.</div></div>
             <div class="diagnosis-why-item"><i data-lucide="phone" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>You get Kurt — not a call center</strong>When you call, I answer. When something needs adjusting six months later, I come back. That's how I run this business.</div></div>
             <div class="diagnosis-why-item"><i data-lucide="shield-check" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>Licensed, insured, no surprises</strong>Every job is quoted before we start. You know the price, the scope, and what to expect — before anyone touches a pipe.</div></div>
             <div class="diagnosis-why-item"><i data-lucide="settings-2" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>We install, service, and follow up</strong>We don't just sell you a system. We set it up right, test it, show you how it works, and stay on call when it's time for maintenance.</div></div>
