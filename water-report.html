@@ -24,6 +24,49 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <style>
+    /* Results section */
+    #report-results { display: none; background: var(--off-white); }
+    #report-results.visible { display: block; }
+    .results-inner { max-width: 960px; margin: 0 auto; }
+    .results-header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+    .results-badge {
+      background: var(--cyan-light); color: var(--blue);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+    }
+    .results-system-name { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.03em; }
+    .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .results-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 28px; box-shadow: 0 2px 12px rgba(13,44,71,0.06); }
+    .results-card h3 { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-mid); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .results-card.full-width { grid-column: 1 / -1; }
+    .hardness-value { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; color: var(--navy); line-height: 1; }
+    .hardness-sub { font-size: 14px; color: var(--text-mid); margin-top: 8px; }
+    .hardness-bar { height: 8px; border-radius: 4px; background: var(--border); margin: 16px 0 8px; overflow: hidden; }
+    .hardness-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--cyan), var(--blue)); }
+    .hardness-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-light); }
+    .source-link { font-size: 12px; color: var(--blue); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-top: 16px; }
+    .source-link:hover { text-decoration: underline; }
+    .violation-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .violation-item:last-child { border-bottom: none; }
+    .violation-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .dot-red { background: #dc2626; }
+    .dot-amber { background: #d97706; }
+    .dot-gray { background: #9ca3af; }
+    .violation-name { font-weight: 600; color: var(--navy); }
+    .violation-date { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+    .no-violations { display: flex; align-items: center; gap: 10px; color: #16a34a; font-size: 14px; font-weight: 500; }
+    .results-cta { background: var(--navy); border-radius: 14px; padding: 36px; text-align: center; color: white; margin-top: 24px; }
+    .results-cta h3 { font-family: 'Oswald', sans-serif; font-size: 22px; text-transform: uppercase; margin-bottom: 10px; }
+    .results-cta p { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .results-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .loading-state { text-align: center; padding: 60px 24px; }
+    .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-state { text-align: center; padding: 48px 24px; color: var(--text-mid); }
+    .contaminant-category { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light); margin-top: 20px; margin-bottom: 10px; }
+    .contaminant-category:first-child { margin-top: 0; }
+    @media (max-width: 700px) { .results-grid { grid-template-columns: 1fr; } .results-card.full-width { grid-column: 1; } }
+
     /* ZIP form components */
     .zip-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
     .zip-input { font-family: 'DM Sans', sans-serif; font-size: 16px; padding: 14px 20px; border-radius: 9px; border: 1px solid var(--border); outline: none; flex: 1; min-width: 200px; max-width: 300px; }
@@ -210,11 +253,18 @@
       <div class="section-label">Free Water Quality Report</div>
       <h1>What's Actually<br><em>In Your Water?</em></h1>
       <p>Enter your ZIP code and get a personalized look at your local water quality — common contaminants, municipal violations, and what we'd recommend for your home.</p>
-      <form class="zip-form" onsubmit="return false;">
+      <form class="zip-form" onsubmit="handleZipSubmit(event)">
         <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
         <button class="zip-btn" type="submit">Check My Water →</button>
       </form>
       <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:12px;">Free · No account required · Covers Fort Bend County &amp; surrounding areas</p>
+    </div>
+  </section>
+
+  <!-- LIVE RESULTS (shown after ZIP lookup) -->
+  <section id="report-results">
+    <div class="results-inner" id="results-content">
+      <!-- Populated by JS -->
     </div>
   </section>
 
@@ -422,7 +472,7 @@
       <div class="section-label">Ready To Know?</div>
       <h2 class="section-title">Run Your Water Report</h2>
       <p class="section-sub">Free, instant, and specific to your ZIP. No account, no email required to see your results.</p>
-      <form class="zip-form" onsubmit="return false;">
+      <form class="zip-form" onsubmit="handleZipSubmit(event)">
         <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
         <button class="zip-btn" type="submit">Check My Water →</button>
       </form>
@@ -475,6 +525,180 @@
     </div>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <script>
+    lucide.createIcons();
+
+    const CATEGORY_LABELS = {
+      pfas: 'PFAS / Forever Chemicals',
+      heavy_metal: 'Heavy Metals',
+      nitrate: 'Nitrates',
+      radionuclide: 'Radionuclides',
+      disinfection_byproduct: 'Disinfection Byproducts',
+    };
+
+    function pillClass(timesOver) {
+      if (timesOver >= 20) return 'pill-red';
+      if (timesOver >= 5)  return 'pill-amber';
+      if (timesOver >= 1)  return 'pill-yellow';
+      return 'pill-green';
+    }
+
+    function pillLabel(timesOver) {
+      if (timesOver >= 20) return `${timesOver}× over guideline`;
+      if (timesOver >= 5)  return `${timesOver}× over guideline`;
+      if (timesOver >= 1)  return 'Above guideline';
+      return 'Within guideline';
+    }
+
+    function renderContaminants(contaminants) {
+      const grouped = {};
+      for (const c of contaminants) {
+        if (!grouped[c.category]) grouped[c.category] = [];
+        grouped[c.category].push(c);
+      }
+      let html = '';
+      for (const [cat, items] of Object.entries(grouped)) {
+        html += `<div class="contaminant-category">${CATEGORY_LABELS[cat] || cat}</div>`;
+        for (const c of items) {
+          const pc = pillClass(c.times_over_guideline);
+          const pl = pillLabel(c.times_over_guideline);
+          html += `
+            <li class="contaminant-item">
+              <span class="contaminant-name">${c.name}</span>
+              <span class="status-pill ${pc}">${pl}</span>
+            </li>`;
+        }
+      }
+      return html;
+    }
+
+    function renderViolations(violations) {
+      if (!violations || violations.length === 0) {
+        return `<div class="no-violations"><i data-lucide="check-circle" style="width:18px;height:18px;flex-shrink:0;"></i> No active violations on record for this system.</div>`;
+      }
+      return violations.map(v => {
+        const isHealth = v.is_health_based;
+        const dotClass = isHealth ? 'dot-red' : 'dot-amber';
+        const date = v.begin_date ? new Date(v.begin_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '';
+        return `
+          <div class="violation-item">
+            <div class="violation-dot ${dotClass}"></div>
+            <div>
+              <div class="violation-name">${v.contaminant}</div>
+              <div class="violation-date">${v.type}${date ? ' · ' + date : ''} · ${isHealth ? 'Health-based' : 'Monitoring'}</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function hardnessPct(gpg_max) {
+      // Scale 0–20 GPG as 0–100%
+      return Math.min(100, Math.round((gpg_max / 20) * 100));
+    }
+
+    function renderResults(data) {
+      const { zip, system, contaminants, violations } = data;
+      const gpg = system?.hardness?.max_gpg ?? '—';
+      const pct = system?.hardness?.max_gpg ? hardnessPct(system.hardness.max_gpg) : 50;
+
+      return `
+        <div class="results-header">
+          <span class="results-badge">Live Report</span>
+          <span class="results-system-name">${system?.name || 'Your Water System'} — ZIP ${zip}</span>
+        </div>
+
+        <div class="results-grid">
+
+          <!-- Contaminants -->
+          <div class="results-card full-width">
+            <h3>Detected Contaminants <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EWG Tap Water Database 2013–2023</span></h3>
+            <ul class="contaminant-list">${renderContaminants(contaminants)}</ul>
+            <a href="${system?.ewg_url || 'https://www.ewg.org/tapwater/'}" target="_blank" rel="noopener" class="source-link">
+              <i data-lucide="external-link" style="width:12px;height:12px;"></i> Full EWG report for this system
+            </a>
+          </div>
+
+          <!-- Hardness -->
+          <div class="results-card">
+            <h3>Water Hardness <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· Sugar Land CCR 2022</span></h3>
+            <div class="hardness-value">${gpg} <span style="font-size:22px;color:var(--text-mid);">GPG</span></div>
+            <div class="hardness-sub">${system?.hardness?.min_ppm ?? '—'}–${system?.hardness?.max_ppm ?? '—'} ppm · <strong>${system?.hardness?.label ?? ''}</strong></div>
+            <div class="hardness-bar"><div class="hardness-fill" style="width:${pct}%"></div></div>
+            <div class="hardness-labels"><span>Soft</span><span>Hard</span><span>Very Hard</span></div>
+            <a href="${system?.ccr_url || 'https://www.sugarlandtx.gov/329/Water-Quality'}" target="_blank" rel="noopener" class="source-link">
+              <i data-lucide="external-link" style="width:12px;height:12px;"></i> City of Sugar Land Water Quality Report
+            </a>
+          </div>
+
+          <!-- Violations -->
+          <div class="results-card">
+            <h3>Violation History <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EPA SDWIS (Live)</span></h3>
+            ${renderViolations(violations)}
+          </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="results-cta">
+          <h3>Ready to Fix It?</h3>
+          <p>Based on ${system?.area || 'your area'}'s water profile, Kurt can recommend the right system for your home — usually a whole-home carbon filter, an RO system, and a softener. Free quote, no pressure.</p>
+          <div class="results-cta-btns">
+            <a href="tel:+17138221308" class="btn-primary">Call Kurt — (713) 822-1308</a>
+            <a href="index.html#contact" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:white;">Request a Quote Online →</a>
+          </div>
+        </div>
+      `;
+    }
+
+    async function handleZipSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const input = form.querySelector('.zip-input');
+      const zip = input?.value?.trim();
+
+      if (!zip || !/^\d{5}$/.test(zip)) {
+        input.focus();
+        return;
+      }
+
+      // Show results section with loading state
+      const resultsSection = document.getElementById('report-results');
+      const resultsContent = document.getElementById('results-content');
+      resultsSection.classList.add('visible');
+      resultsContent.innerHTML = `
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <p style="color:var(--text-mid);font-size:15px;">Pulling water data for ZIP ${zip}…</p>
+        </div>`;
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      try {
+        const res = await fetch(`/api/water-report?zip=${zip}`);
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          resultsContent.innerHTML = `
+            <div class="error-state">
+              <i data-lucide="alert-circle" style="width:40px;height:40px;color:var(--text-light);margin-bottom:16px;"></i>
+              <p style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:8px;">
+                ${data.message || 'Something went wrong.'}
+              </p>
+              <p>Call Kurt directly at <a href="tel:+17138221308" style="color:var(--blue);">(713) 822-1308</a> — he can tell you exactly what's in your water.</p>
+            </div>`;
+          lucide.createIcons();
+          return;
+        }
+
+        resultsContent.innerHTML = renderResults(data);
+        lucide.createIcons();
+
+      } catch (err) {
+        resultsContent.innerHTML = `
+          <div class="error-state">
+            <p>Couldn't reach our data service. Try again or call Kurt at <a href="tel:+17138221308" style="color:var(--blue);">(713) 822-1308</a>.</p>
+          </div>`;
+      }
+    }
+  </script>
 </body>
 </html>
