@@ -249,7 +249,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid JSON' });
   }
 
-  const { email, zip, reportData } = body || {};
+  const { email, zip } = body || {};
 
   if (!email || !zip) {
     return res.status(400).json({ error: 'email and zip are required' });
@@ -258,9 +258,25 @@ export default async function handler(req, res) {
   const RESEND_KEY = process.env.RESEND_API_KEY;
   const SHEET_HOOK = process.env.SHEET_WEBHOOK_URL;
 
+  // ── 0. Fetch water data fresh from the API (server-side) ──────────────────
+  // We re-fetch rather than trusting browser-sent reportData to avoid any
+  // client-side serialization issues and keep email data authoritative.
+  let reportData = {};
+  try {
+    const proto   = req.headers['x-forwarded-proto'] || 'https';
+    const host    = req.headers.host || 'imperialwaterco.com';
+    const waterRes = await fetch(`${proto}://${host}/api/water-report?zip=${zip}`);
+    if (waterRes.ok) {
+      reportData = await waterRes.json();
+    }
+    console.log('send-report: zip=', zip, 'email=', email,
+      'contaminants=', (reportData.contaminants || []).length);
+  } catch (err) {
+    console.error('Water data fetch error:', err.message);
+  }
+
   // ── 1. Send email via Resend ──────────────────────────────────────────────
   let emailSent = false;
-  console.log('send-report: zip=', zip, 'email=', email, 'hasKey=', !!RESEND_KEY);
   if (RESEND_KEY) {
     try {
       const r = await fetch('https://api.resend.com/emails', {
@@ -273,7 +289,7 @@ export default async function handler(req, res) {
           from:    'Imperial Water Co. <onboarding@resend.dev>',
           to:      [email],
           subject: `Your Water Quality Report — ZIP ${zip}`,
-          html:    buildEmailHTML(zip, reportData || {}),
+          html:    buildEmailHTML(zip, reportData),
         }),
       });
       const resBody = await r.text();
@@ -289,8 +305,8 @@ export default async function handler(req, res) {
   // ── 2. Log to Google Sheet ────────────────────────────────────────────────
   if (SHEET_HOOK) {
     try {
-      const sys = reportData?.system || {};
-      const aboveCount = (reportData?.contaminants || []).filter(c => (c.times_over_guideline || 0) >= 1).length;
+      const sys = reportData.system || {};
+      const aboveCount = (reportData.contaminants || []).filter(c => (c.times_over_guideline || 0) >= 1).length;
       await fetch(SHEET_HOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

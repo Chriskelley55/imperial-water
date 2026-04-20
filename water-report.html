@@ -867,7 +867,7 @@
           fetch('/api/send-report', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, zip, reportData: data }),
+            body: JSON.stringify({ email, zip }),
           }).then(r => {
             if (r.ok) {
               const note = document.getElementById('email-sent-note');
