@@ -160,13 +160,16 @@
         <span class="logo-sub">Sugar Land, TX</span>
       </div>
     </a>
-    <nav>
+    <nav id="main-nav">
       <a href="services.html">Services</a>
       <a href="why-water.html">Why Water Quality</a>
       <a href="maintenance.html">Maintenance Plans</a>
       <a href="water-report.html">Your Water Report</a>
       <a href="index.html#contact" class="header-cta"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> Call for a Quote</a>
     </nav>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation menu" aria-expanded="false">
+    <i data-lucide="menu" style="width:24px;height:24px;"></i>
+  </button>
   </header>
 
   <!-- ══════════════════════════════════════════════ -->
@@ -546,5 +549,7 @@
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>lucide.createIcons();</script>
+  <div class="nav-overlay" id="nav-overlay"></div>
+  <script src="nav.js"></script>
 </body>
 </html>

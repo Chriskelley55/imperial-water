@@ -79,7 +79,40 @@
     .diagnosis-why-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.7); }
     .diagnosis-why-icon { color: var(--cyan); flex-shrink: 0; margin-top: 1px; }
     .diagnosis-why-item strong { display: block; color: white; font-size: 13px; margin-bottom: 2px; }
-    @media (max-width: 700px) { .results-grid { grid-template-columns: 1fr; } .results-card.full-width { grid-column: 1; } .diagnosis-why { grid-template-columns: 1fr; } }
+    /* Water Score */
+    .water-score-block { display:flex; align-items:center; gap:28px; background:white; border:1px solid var(--border); border-radius:14px; padding:28px 32px; box-shadow:0 2px 12px rgba(13,44,71,0.06); margin-bottom:24px; }
+    .score-number { font-family:'Oswald',sans-serif; font-size:72px; font-weight:700; color:var(--navy); line-height:1; flex-shrink:0; }
+    .score-denom { font-size:26px; color:var(--text-mid); }
+    .score-detail { flex:1; }
+    .score-label-text { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-light); margin-bottom:10px; }
+    .score-bar { height:10px; border-radius:5px; background:var(--border); overflow:hidden; margin-bottom:12px; }
+    .score-fill { height:100%; border-radius:5px; transition:width 1s ease; }
+    .score-context { display:flex; gap:20px; font-size:12px; color:var(--text-light); flex-wrap:wrap; margin-bottom:8px; }
+    .score-verdict { font-size:13px; font-weight:600; }
+
+    /* Severity pill — critical tier */
+    .pill-critical { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+
+    /* Email gate */
+    .email-gate-card { background:var(--navy); border-radius:14px; padding:44px 36px; text-align:center; color:white; margin-top:24px; }
+    .email-gate-card h3 { font-family:'Oswald',sans-serif; font-size:22px; text-transform:uppercase; letter-spacing:0.03em; color:white; margin-bottom:10px; }
+    .email-gate-card p { font-size:15px; color:rgba(255,255,255,0.72); margin-bottom:24px; max-width:500px; margin-left:auto; margin-right:auto; }
+    .email-gate-form { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:14px; }
+    .email-gate-form .zip-input { background:rgba(255,255,255,0.95); min-width:240px; max-width:280px; }
+    .gate-icon { font-size:28px; margin-bottom:14px; }
+    .gate-note { font-size:12px; color:rgba(255,255,255,0.4); }
+
+    /* Email success */
+    .email-success { display:flex; align-items:center; gap:10px; background:rgba(0,168,204,0.1); border:1px solid rgba(0,168,204,0.3); border-radius:10px; padding:16px 20px; color:var(--cyan); font-size:14px; font-weight:500; }
+
+    @media (max-width: 700px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .results-card.full-width { grid-column: 1; }
+      .diagnosis-why { grid-template-columns: 1fr; }
+      .water-score-block { flex-direction:column; text-align:center; gap:16px; padding:24px; }
+      .score-context { justify-content:center; }
+      .score-number { font-size:56px; }
+    }
 
     /* ZIP form components */
     .zip-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -252,13 +285,16 @@
         <span class="logo-sub">Sugar Land, TX</span>
       </div>
     </a>
-    <nav>
+    <nav id="main-nav">
       <a href="services.html">Services</a>
       <a href="why-water.html">Why Water Quality</a>
       <a href="maintenance.html">Maintenance Plans</a>
       <a href="water-report.html">Your Water Report</a>
       <a href="index.html#contact" class="header-cta"><i data-lucide="phone" style="width:15px;height:15px;vertical-align:middle;"></i> Call for a Quote</a>
     </nav>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation menu" aria-expanded="false">
+    <i data-lucide="menu" style="width:24px;height:24px;"></i>
+  </button>
   </header>
 
   <!-- SECTION 1: PAGE HERO -->
@@ -271,7 +307,7 @@
         <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
         <button class="zip-btn" type="submit">Check My Water →</button>
       </form>
-      <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:12px;">Free · No account required · Covers Fort Bend County &amp; surrounding areas</p>
+      <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:12px;">Free water score · Full assessment emailed instantly · No account required</p>
     </div>
   </section>
 
@@ -485,7 +521,7 @@
     <div class="section-header">
       <div class="section-label">Ready To Know?</div>
       <h2 class="section-title">Run Your Water Report</h2>
-      <p class="section-sub">Free, instant, and specific to your ZIP. No account, no email required to see your results.</p>
+      <p class="section-sub">Enter your ZIP for an instant water score. Enter your email to unlock Kurt's full assessment — free and instant.</p>
       <form class="zip-form" onsubmit="handleZipSubmit(event)">
         <input class="zip-input" type="text" placeholder="Enter your ZIP code (e.g. 77478)" maxlength="5" inputmode="numeric" pattern="[0-9]*" aria-label="ZIP code">
         <button class="zip-btn" type="submit">Check My Water →</button>
@@ -542,28 +578,52 @@
   <script>
     lucide.createIcons();
 
+    // Global state
+    let _reportData = null;
+    let _reportZip  = null;
+
     const CATEGORY_LABELS = {
-      pfas: 'PFAS / Forever Chemicals',
-      heavy_metal: 'Heavy Metals',
-      nitrate: 'Nitrates',
-      radionuclide: 'Radionuclides',
+      pfas:                   'PFAS / Forever Chemicals',
+      heavy_metal:            'Heavy Metals',
+      nitrate:                'Nitrates',
+      radionuclide:           'Radionuclides',
       disinfection_byproduct: 'Disinfection Byproducts',
     };
 
-    function pillClass(timesOver) {
-      if (timesOver >= 20) return 'pill-red';
-      if (timesOver >= 5)  return 'pill-amber';
-      if (timesOver >= 1)  return 'pill-yellow';
-      return 'pill-green';
+    // ── Severity ─────────────────────────────────────────────────────────────
+    function getSeverity(t) {
+      if (t >= 100) return { label: 'Extremely High', cls: 'pill-critical' };
+      if (t >= 20)  return { label: 'Very High',      cls: 'pill-red'      };
+      if (t >= 5)   return { label: 'High',           cls: 'pill-amber'    };
+      if (t >= 1)   return { label: 'Elevated',       cls: 'pill-yellow'   };
+      return               { label: 'Above Guideline', cls: 'pill-yellow'  };
     }
 
-    function pillLabel(timesOver) {
-      if (timesOver >= 20) return `${timesOver}× over guideline`;
-      if (timesOver >= 5)  return `${timesOver}× over guideline`;
-      if (timesOver >= 1)  return 'Above guideline';
-      return 'Within guideline';
+    // ── Water Score ───────────────────────────────────────────────────────────
+    function calculateScore(contaminants) {
+      const above = (contaminants || []).filter(c => (c.times_over_guideline || 0) >= 1);
+      let penalty = 0;
+      for (const c of above) {
+        const m = Math.max(c.times_over_guideline, 1.01);
+        penalty += Math.min(5 + Math.log10(m) * 8, 20);
+      }
+      penalty += above.length * 2;
+      return Math.max(0, Math.round(100 / (1 + penalty / 40)));
     }
 
+    function scoreColor(s) {
+      return s >= 80 ? '#16a34a' : s >= 60 ? '#d97706' : s >= 40 ? '#ea580c' : s >= 20 ? '#dc2626' : '#991b1b';
+    }
+
+    function scoreVerdict(s) {
+      return s >= 80 ? 'Good — minimal treatment concerns'
+           : s >= 60 ? 'Fair — some concerns present'
+           : s >= 40 ? 'Poor — treatment recommended'
+           : s >= 20 ? 'Very Poor — treatment needed'
+           :           'Critical — serious treatment needed';
+    }
+
+    // ── Render helpers ────────────────────────────────────────────────────────
     function renderContaminants(contaminants) {
       const grouped = {};
       for (const c of contaminants) {
@@ -574,12 +634,12 @@
       for (const [cat, items] of Object.entries(grouped)) {
         html += `<div class="contaminant-category">${CATEGORY_LABELS[cat] || cat}</div>`;
         for (const c of items) {
-          const pc = pillClass(c.times_over_guideline);
-          const pl = pillLabel(c.times_over_guideline);
+          const { label, cls } = getSeverity(c.times_over_guideline);
+          const mult = c.times_over_guideline >= 1 ? ` · ${c.times_over_guideline}×` : '';
           html += `
             <li class="contaminant-item">
               <span class="contaminant-name">${c.name}</span>
-              <span class="status-pill ${pc}">${pl}</span>
+              <span class="status-pill ${cls}">${label}${mult}</span>
             </li>`;
         }
       }
@@ -592,11 +652,10 @@
       }
       return violations.map(v => {
         const isHealth = v.is_health_based;
-        const dotClass = isHealth ? 'dot-red' : 'dot-amber';
         const date = v.begin_date ? new Date(v.begin_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '';
         return `
           <div class="violation-item">
-            <div class="violation-dot ${dotClass}"></div>
+            <div class="violation-dot ${isHealth ? 'dot-red' : 'dot-amber'}"></div>
             <div>
               <div class="violation-name">${v.contaminant}</div>
               <div class="violation-date">${v.type}${date ? ' · ' + date : ''} · ${isHealth ? 'Health-based' : 'Monitoring'}</div>
@@ -606,117 +665,45 @@
     }
 
     function hardnessPct(gpg_max) {
-      // Scale 0–20 GPG as 0–100%
       return Math.min(100, Math.round((gpg_max / 20) * 100));
-    }
-
-    function renderResults(data) {
-      const { zip, system, contaminants, violations } = data;
-      const gpg = system?.hardness?.max_gpg ?? '—';
-      const pct = system?.hardness?.max_gpg ? hardnessPct(system.hardness.max_gpg) : 50;
-
-      return `
-        <div class="results-header">
-          <span class="results-badge">Live Report</span>
-          <span class="results-system-name">${system?.name || 'Your Water System'} — ZIP ${zip}</span>
-        </div>
-
-        <div class="results-grid">
-
-          <!-- Contaminants -->
-          <div class="results-card full-width">
-            <h3>Detected Contaminants <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EWG Tap Water Database 2013–2023</span></h3>
-            <ul class="contaminant-list">${renderContaminants(contaminants)}</ul>
-            <a href="${system?.ewg_url || 'https://www.ewg.org/tapwater/'}" target="_blank" rel="noopener" class="source-link">
-              <i data-lucide="external-link" style="width:12px;height:12px;"></i> Full EWG report for this system
-            </a>
-          </div>
-
-          <!-- Hardness -->
-          <div class="results-card">
-            <h3>Water Hardness <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· Sugar Land CCR 2022</span></h3>
-            <div class="hardness-value">${gpg} <span style="font-size:22px;color:var(--text-mid);">GPG</span></div>
-            <div class="hardness-sub">${system?.hardness?.min_ppm ?? '—'}–${system?.hardness?.max_ppm ?? '—'} ppm · <strong>${system?.hardness?.label ?? ''}</strong></div>
-            <div class="hardness-bar"><div class="hardness-fill" style="width:${pct}%"></div></div>
-            <div class="hardness-labels"><span>Soft</span><span>Hard</span><span>Very Hard</span></div>
-            <a href="${system?.ccr_url || 'https://www.sugarlandtx.gov/329/Water-Quality'}" target="_blank" rel="noopener" class="source-link">
-              <i data-lucide="external-link" style="width:12px;height:12px;"></i> City of Sugar Land Water Quality Report
-            </a>
-          </div>
-
-          <!-- Violations -->
-          <div class="results-card">
-            <h3>Violation History <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EPA SDWIS (Live)</span></h3>
-            ${renderViolations(violations)}
-          </div>
-
-        </div>
-
-        ${renderDiagnosis(data)}
-
-        <!-- CTA -->
-        <div class="results-cta" style="margin-top:24px;">
-          <h3>Get a Free Quote</h3>
-          <p>No obligation, no sales pitch. Call or text Kurt and he'll walk you through exactly what your home needs and what it costs.</p>
-          <div class="results-cta-btns">
-            <a href="tel:+17138221308" class="btn-primary">Call Kurt — (713) 822-1308</a>
-            <a href="index.html#contact" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:white;">Request a Quote Online →</a>
-          </div>
-        </div>
-      `;
     }
 
     function buildRecommendations(data) {
       const { contaminants = [], system } = data;
-      const cats = new Set(contaminants.map(c => c.category));
+      const cats    = new Set(contaminants.map(c => c.category));
       const hardness = system?.hardness?.max_gpg || 0;
-      const recs = [];
+      const recs    = [];
 
-      const hasPFAS   = cats.has('pfas');
-      const hasMetal  = cats.has('heavy_metal');
-      const hasNitrate= cats.has('nitrate');
-      const hasRadio  = cats.has('radionuclide');
-      const hasDBP    = cats.has('disinfection_byproduct');
-      const isHard    = hardness > 7;
+      const hasPFAS    = cats.has('pfas');
+      const hasMetal   = cats.has('heavy_metal');
+      const hasNitrate = cats.has('nitrate');
+      const hasRadio   = cats.has('radionuclide');
+      const hasDBP     = cats.has('disinfection_byproduct');
+      const isHard     = hardness > 7;
 
-      // Priority 1 — RO (addresses the most concerning dissolved contaminants)
       if (hasPFAS || hasMetal || hasNitrate || hasRadio) {
-        const targets = [
-          hasPFAS   && 'PFAS',
-          hasMetal  && 'heavy metals',
-          hasNitrate&& 'nitrates',
-          hasRadio  && 'uranium',
-        ].filter(Boolean);
+        const targets = [hasPFAS && 'PFAS', hasMetal && 'heavy metals', hasNitrate && 'nitrates', hasRadio && 'uranium/radium'].filter(Boolean);
         recs.push({
           title: 'Under-Sink Reverse Osmosis System',
           body: `Your report shows ${targets.join(', ')} — all dissolved contaminants that standard filters don't catch. RO pushes water through a semipermeable membrane that removes 95–99% of these at the source. I put this first because it's what protects your family at the tap you drink from every day.`,
         });
       }
-
-      // Priority 2 — Whole-home carbon (DBPs)
       if (hasDBP) {
         recs.push({
           title: 'Whole-Home Carbon Filtration',
           body: `Your disinfection byproduct levels — THMs and HAAs — are significantly above health guidelines. These form when chlorine reacts with organic matter in your water, and they come out of every tap in the house. A whole-home carbon filter at the main line catches them before they reach your shower, your laundry, and your kids' bath.`,
         });
       }
-
-      // Priority 3 — Softener
       if (isHard) {
-        const severity = hardness > 15 ? 'aggressively' : hardness > 10 ? 'significantly' : 'notably';
+        const sev = hardness > 15 ? 'aggressively' : hardness > 10 ? 'significantly' : 'notably';
         recs.push({
           title: 'Water Softener',
-          body: `At ${hardness} GPG, your water is ${severity} hard. That's scale building inside your water heater, on your pipes, and in your fixtures. It shortens appliance life, leaves your skin dry, and costs you money on soaps and detergents. A whole-home softener fixes all of it and typically pays for itself in 2–4 years.`,
+          body: `At ${hardness} GPG, your water is ${sev} hard. That's scale building inside your water heater, on your pipes, and in your fixtures. It shortens appliance life, leaves your skin dry, and costs you money on soaps and detergents. A whole-home softener fixes all of it and typically pays for itself in 2–4 years.`,
         });
       }
-
       if (recs.length === 0) {
-        recs.push({
-          title: 'Baseline Filtration',
-          body: 'Your water looks relatively clean based on available data, but that doesn\'t mean it\'s perfect. A basic filtration setup is still a smart move for taste, odor, and peace of mind.',
-        });
+        recs.push({ title: 'Baseline Filtration', body: "Your water looks relatively clean based on available data, but that doesn't mean it's perfect. A basic filtration setup is still a smart move for taste, odor, and peace of mind." });
       }
-
       return recs;
     }
 
@@ -728,7 +715,6 @@
         : recs.length === 2
         ? `Your ${area} water has two things I'd fix. Here's the plan.`
         : `Your ${area} water is in decent shape, but there's one thing I'd address first.`;
-
       const itemsHtml = recs.map((r, i) => `
         <div class="diagnosis-item">
           <div class="diagnosis-num">${i + 1}</div>
@@ -737,7 +723,6 @@
             <div class="diagnosis-item-body">${r.body}</div>
           </div>
         </div>`).join('');
-
       return `
         <div class="diagnosis-card">
           <h3>Kurt's Assessment</h3>
@@ -746,38 +731,160 @@
           <div class="diagnosis-divider"></div>
           <div style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--cyan);margin-bottom:14px;">Why Imperial Water Co.</div>
           <div class="diagnosis-why">
-            <div class="diagnosis-why-item">
-              <i data-lucide="map-pin" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
-              <div><strong>We know Sugar Land water</strong>We've seen these exact contaminant profiles in homes across Fort Bend County. No guessing — we know what your water does to appliances, pipes, and people over time.</div>
-            </div>
-            <div class="diagnosis-why-item">
-              <i data-lucide="phone" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
-              <div><strong>You get Kurt — not a call center</strong>When you call, I answer. When something needs adjusting six months later, I come back. That's how I run this business.</div>
-            </div>
-            <div class="diagnosis-why-item">
-              <i data-lucide="shield-check" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
-              <div><strong>Licensed, insured, no surprises</strong>Every job is quoted before we start. You know the price, the scope, and what to expect — before anyone touches a pipe.</div>
-            </div>
-            <div class="diagnosis-why-item">
-              <i data-lucide="settings-2" class="diagnosis-why-icon" style="width:15px;height:15px;"></i>
-              <div><strong>We install, service, and follow up</strong>We don't just sell you a system. We set it up right, test it, show you how it works, and stay on call when it's time for maintenance.</div>
-            </div>
+            <div class="diagnosis-why-item"><i data-lucide="map-pin" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>We know Sugar Land water</strong>We've seen these exact contaminant profiles in homes across Fort Bend County. No guessing — we know what your water does to appliances, pipes, and people over time.</div></div>
+            <div class="diagnosis-why-item"><i data-lucide="phone" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>You get Kurt — not a call center</strong>When you call, I answer. When something needs adjusting six months later, I come back. That's how I run this business.</div></div>
+            <div class="diagnosis-why-item"><i data-lucide="shield-check" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>Licensed, insured, no surprises</strong>Every job is quoted before we start. You know the price, the scope, and what to expect — before anyone touches a pipe.</div></div>
+            <div class="diagnosis-why-item"><i data-lucide="settings-2" class="diagnosis-why-icon" style="width:15px;height:15px;"></i><div><strong>We install, service, and follow up</strong>We don't just sell you a system. We set it up right, test it, show you how it works, and stay on call when it's time for maintenance.</div></div>
           </div>
         </div>`;
     }
 
-    async function handleZipSubmit(e) {
-      e.preventDefault();
-      const form = e.target;
-      const input = form.querySelector('.zip-input');
-      const zip = input?.value?.trim();
+    // ── Partial results (zip only) ────────────────────────────────────────────
+    function renderResults(data) {
+      const { zip, system, contaminants, violations } = data;
+      const gpg    = system?.hardness?.max_gpg ?? '—';
+      const pct    = system?.hardness?.max_gpg ? hardnessPct(system.hardness.max_gpg) : 50;
+      const score  = calculateScore(contaminants);
+      const col    = scoreColor(score);
+      const verdict = scoreVerdict(score);
+      const vCount = violations?.length || 0;
+      const vHealth = violations?.filter(v => v.is_health_based)?.length || 0;
 
-      if (!zip || !/^\d{5}$/.test(zip)) {
-        input.focus();
-        return;
+      return `
+        <div class="results-header">
+          <span class="results-badge">Live Report</span>
+          <span class="results-system-name">${system?.name || 'Your Water System'} — ZIP ${zip}</span>
+        </div>
+
+        <!-- Water Score -->
+        <div class="water-score-block">
+          <div class="score-number">${score}<span class="score-denom">/100</span></div>
+          <div class="score-detail">
+            <div class="score-label-text">Water Quality Score</div>
+            <div class="score-bar"><div class="score-fill" style="width:${score}%;background:${col};"></div></div>
+            <div class="score-context">
+              <span>📍 <strong>Your score:</strong> ${score}</span>
+              <span>🇺🇸 <strong>National avg:</strong> 62</span>
+              <span>✅ <strong>Goal:</strong> 85+</span>
+            </div>
+            <div class="score-verdict" style="color:${col};">${verdict}</div>
+          </div>
+        </div>
+
+        <div class="results-grid">
+
+          <!-- Contaminants (with severity badges) -->
+          <div class="results-card full-width">
+            <h3>Detected Contaminants <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EWG Tap Water Database 2013–2023</span></h3>
+            <ul class="contaminant-list">${renderContaminants(contaminants)}</ul>
+            <a href="${system?.ewg_url || 'https://www.ewg.org/tapwater/'}" target="_blank" rel="noopener" class="source-link">
+              <i data-lucide="external-link" style="width:12px;height:12px;"></i> Full EWG report for this system
+            </a>
+          </div>
+
+          <!-- Hardness -->
+          <div class="results-card">
+            <h3>Water Hardness <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· Municipal CCR</span></h3>
+            <div class="hardness-value">${gpg} <span style="font-size:22px;color:var(--text-mid);">GPG</span></div>
+            <div class="hardness-sub">${system?.hardness?.min_ppm ?? '—'}–${system?.hardness?.max_ppm ?? '—'} ppm · <strong>${system?.hardness?.label ?? ''}</strong></div>
+            <div class="hardness-bar"><div class="hardness-fill" style="width:${pct}%"></div></div>
+            <div class="hardness-labels"><span>Soft</span><span>Hard</span><span>Very Hard</span></div>
+            <a href="${system?.ccr_url || 'https://www.sugarlandtx.gov/329/Water-Quality'}" target="_blank" rel="noopener" class="source-link">
+              <i data-lucide="external-link" style="width:12px;height:12px;"></i> City Water Quality Report
+            </a>
+          </div>
+
+          <!-- Violations — count only; detail in email -->
+          <div class="results-card">
+            <h3>Violation History <span style="font-weight:400;color:var(--text-light);font-size:12px;text-transform:none;letter-spacing:0;">· EPA SDWIS (Live)</span></h3>
+            ${vCount === 0
+              ? `<div class="no-violations"><i data-lucide="check-circle" style="width:18px;height:18px;flex-shrink:0;"></i> No active violations on record.</div>`
+              : `<div style="display:flex;flex-direction:column;gap:10px;">
+                   <div style="font-family:'Oswald',sans-serif;font-size:48px;font-weight:700;color:var(--navy);line-height:1;">${vCount}</div>
+                   <div style="font-size:14px;color:var(--text-mid);">violations on record${vHealth > 0 ? ' · <strong style="color:#dc2626;">' + vHealth + ' health-based</strong>' : ''}</div>
+                   <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Full breakdown included in your email report.</div>
+                 </div>`
+            }
+          </div>
+
+        </div>
+
+        <!-- Email gate — unlocks Kurt's Assessment -->
+        <div class="email-gate-card" id="email-gate">
+          <div class="gate-icon">🔒</div>
+          <h3>Get Kurt's Full Assessment</h3>
+          <p>Your water scored ${score}/100. Kurt has a specific recommendation for your home — which systems, in what order, and why. We'll email it to you instantly.</p>
+          <form class="email-gate-form" id="email-gate-form" onsubmit="handleEmailSubmit(event)">
+            <input type="email" class="zip-input" id="email-input" placeholder="your@email.com" required>
+            <button class="zip-btn" type="submit" id="email-submit-btn">Get My Full Report →</button>
+          </form>
+          <p class="gate-note">No spam · Instant delivery · Unsubscribe anytime</p>
+        </div>
+
+        <!-- Diagnosis — hidden until email submitted -->
+        <div id="diagnosis-reveal" style="display:none;"></div>
+      `;
+    }
+
+    // ── Email submit → unlock diagnosis + fire API ────────────────────────────
+    async function handleEmailSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('email-input')?.value?.trim();
+      if (!email) return;
+
+      const btn = document.getElementById('email-submit-btn');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      // Fire and forget — don't block the UI reveal
+      fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, zip: _reportZip, reportData: _reportData }),
+      }).catch(() => {});
+
+      // Swap gate card for success message
+      const gateEl = document.getElementById('email-gate');
+      if (gateEl) {
+        gateEl.outerHTML = `
+          <div style="margin-top:24px;">
+            <div class="email-success">
+              <i data-lucide="mail-check" style="width:18px;height:18px;flex-shrink:0;"></i>
+              Report sent to <strong style="margin-left:4px;">${email}</strong> — check your inbox.
+            </div>
+          </div>`;
       }
 
-      // Show results section with loading state
+      // Reveal diagnosis + CTA
+      const revealEl = document.getElementById('diagnosis-reveal');
+      if (revealEl && _reportData) {
+        revealEl.style.display = 'block';
+        revealEl.innerHTML = renderDiagnosis(_reportData) + `
+          <div class="results-cta" style="margin-top:24px;">
+            <h3>Schedule Your Free Home Assessment</h3>
+            <p>No obligation, no sales pitch. Call or text Kurt and he'll walk you through exactly what your home needs and what it costs.</p>
+            <div class="results-cta-btns">
+              <a href="tel:+17138221308" class="btn-primary">Call Kurt — (713) 822-1308</a>
+              <a href="index.html#contact" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:white;">Request a Quote Online →</a>
+            </div>
+          </div>`;
+        lucide.createIcons();
+        revealEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // ── ZIP submit ────────────────────────────────────────────────────────────
+    async function handleZipSubmit(e) {
+      e.preventDefault();
+      const form  = e.target;
+      const input = form.querySelector('.zip-input');
+      const zip   = input?.value?.trim();
+
+      if (!zip || !/^\d{5}$/.test(zip)) { input?.focus(); return; }
+
+      _reportZip  = zip;
+      _reportData = null;
+
       const resultsSection = document.getElementById('report-results');
       const resultsContent = document.getElementById('results-content');
       resultsSection.classList.add('visible');
@@ -789,22 +896,21 @@
       resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       try {
-        const res = await fetch(`/api/water-report?zip=${zip}`);
+        const res  = await fetch(`/api/water-report?zip=${zip}`);
         const data = await res.json();
 
         if (!res.ok || data.error) {
           resultsContent.innerHTML = `
             <div class="error-state">
               <i data-lucide="alert-circle" style="width:40px;height:40px;color:var(--text-light);margin-bottom:16px;"></i>
-              <p style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:8px;">
-                ${data.message || 'Something went wrong.'}
-              </p>
-              <p>Call Kurt directly at <a href="tel:+17138221308" style="color:var(--blue);">(713) 822-1308</a> — he can tell you exactly what's in your water.</p>
+              <p style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:8px;">${data.message || 'Something went wrong.'}</p>
+              <p>Call Kurt directly at <a href="tel:+17138221308" style="color:var(--blue);">(713) 822-1308</a>.</p>
             </div>`;
           lucide.createIcons();
           return;
         }
 
+        _reportData = data;
         resultsContent.innerHTML = renderResults(data);
         lucide.createIcons();
 
@@ -816,5 +922,7 @@
       }
     }
   </script>
+  <div class="nav-overlay" id="nav-overlay"></div>
+  <script src="nav.js"></script>
 </body>
 </html>
