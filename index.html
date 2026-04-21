@@ -31,36 +31,64 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "Plumber"],
     "name": "Imperial Water Co.",
-    "description": "Water system installs, filter replacements, and ongoing service for homes and businesses in Sugar Land, TX and the greater Houston area.",
+    "description": "Licensed water treatment specialist serving Sugar Land, Fort Bend County, and the greater Houston area. Water softeners, reverse osmosis systems, whole-home filtration, PFAS treatment, and ongoing maintenance — installed and serviced by owner Kurt.",
     "url": "https://imperialwaterco.com",
-    "telephone": "(713) 822-1308",
+    "telephone": "+17138221308",
     "email": "kurt@imperialwaterco.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://imperialwaterco.com/logo-mark.png"
+    },
+    "image": "https://imperialwaterco.com/logo-mark.png",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Sugar Land",
       "addressRegion": "TX",
+      "postalCode": "77478",
       "addressCountry": "US"
     },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 29.6196,
+      "longitude": -95.6349
+    },
     "areaServed": [
-      "Sugar Land, TX",
-      "Meadows Place, TX",
-      "Richmond, TX",
-      "Katy, TX",
-      "Pearland, TX",
-      "Houston, TX"
+      { "@type": "City", "name": "Sugar Land",           "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Missouri City",        "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Pearland",             "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Richmond",             "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Rosenberg",            "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Katy",                 "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Bellaire",             "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "West University Place","containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Stafford",             "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Meadows Place",        "containedInPlace": { "@type": "State", "name": "Texas" } },
+      { "@type": "City", "name": "Houston",              "containedInPlace": { "@type": "State", "name": "Texas" } }
     ],
-    "serviceType": [
-      "Water Filtration System Installation",
-      "Water Softener Installation",
-      "Reverse Osmosis System Installation",
-      "Filter Replacement",
-      "Water System Maintenance",
-      "Well Water Treatment"
-    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Water Treatment Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Water Softener Installation" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reverse Osmosis System Installation" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Whole-Home Carbon Filtration" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "PFAS Water Treatment" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Water Filter Replacement" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Water System Maintenance" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Water Quality Testing" } }
+      ]
+    },
     "priceRange": "$$",
-    "openingHours": "Mo-Fr 08:00-18:00",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      }
+    ],
     "sameAs": []
   }
   </script>
@@ -335,7 +363,14 @@
         </div>
       </div>
 
-      <div class="contact-form">
+      <div class="contact-form" style="display:flex;flex-direction:column;gap:0;">
+        <div style="border-radius:12px;overflow:hidden;margin-bottom:24px;border:1px solid var(--border);flex-shrink:0;">
+          <iframe
+            src="https://maps.google.com/maps?q=Sugar+Land,+TX&t=&z=11&ie=UTF8&iwloc=&output=embed"
+            width="100%" height="220" style="border:0;display:block;" allowfullscreen="" loading="lazy"
+            title="Imperial Water Co. service area — Sugar Land and greater Houston">
+          </iframe>
+        </div>
         <h3>Request a Free Quote</h3>
         <p>We'll get back to you same day — usually faster.</p>
         <div class="form-row">
@@ -373,10 +408,15 @@
           <select>
             <option value="">Select your city...</option>
             <option>Sugar Land</option>
+            <option>Missouri City</option>
             <option>Meadows Place</option>
+            <option>Stafford</option>
             <option>Richmond</option>
+            <option>Rosenberg</option>
             <option>Katy</option>
             <option>Pearland</option>
+            <option>Bellaire</option>
+            <option>West University Place</option>
             <option>Houston</option>
             <option>Other</option>
           </select>
