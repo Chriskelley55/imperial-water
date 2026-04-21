@@ -419,7 +419,8 @@
             <label for="system-info">Tell us about your current water system (optional)</label>
             <textarea id="system-info" name="system-info" placeholder="e.g. We have a whole-home carbon filter and an under-sink RO system installed about 3 years ago. Not sure of the brand."></textarea>
           </div>
-          <button type="submit" class="form-submit">Request A Plan →</button>
+          <div id="mp-status"></div>
+          <button type="submit" id="mp-submit" class="form-submit">Request A Plan →</button>
         </form>
       </div>
 
@@ -483,5 +484,71 @@
   <script>lucide.createIcons();</script>
   <div class="nav-overlay" id="nav-overlay"></div>
   <script src="nav.js"></script>
+
+  <script>
+  // ── Maintenance Plan Form ─────────────────────────────────────────────────
+  (function () {
+    var form   = document.querySelector('#contact-form form');
+    var btn    = document.getElementById('mp-submit');
+    var status = document.getElementById('mp-status');
+    if (!form || !btn || !status) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      var firstName = (document.getElementById('first-name')?.value  || '').trim();
+      var lastName  = (document.getElementById('last-name')?.value   || '').trim();
+      var phone     = (document.getElementById('phone')?.value       || '').trim();
+      var email     = (document.getElementById('email')?.value       || '').trim();
+      var address   = (document.getElementById('address')?.value     || '').trim();
+      var plan      =  document.getElementById('plan')?.value        || '';
+      var message   = (document.getElementById('system-info')?.value || '').trim();
+
+      // Validation
+      if (!firstName) {
+        status.innerHTML = '<p style="color:#dc2626;margin:10px 0 0;font-size:14px;">Please enter your first name.</p>';
+        document.getElementById('first-name').focus();
+        return;
+      }
+      if (!phone && !email) {
+        status.innerHTML = '<p style="color:#dc2626;margin:10px 0 0;font-size:14px;">Please provide a phone number or email so we can reach you.</p>';
+        document.getElementById('phone').focus();
+        return;
+      }
+
+      // Submitting state
+      btn.disabled    = true;
+      btn.textContent = 'Sending…';
+      status.innerHTML = '';
+
+      try {
+        var res = await fetch('/api/contact', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            firstName, lastName, phone, email,
+            address, plan, message,
+            sourcePage: 'maintenance-form',
+          }),
+        });
+        var data = await res.json();
+
+        if (res.ok && data.success) {
+          btn.textContent  = 'Sent ✓';
+          status.innerHTML = '<p style="color:#16a34a;font-weight:600;margin:12px 0 0;font-size:14px;">We got it — Kurt will reach out to confirm your first visit!</p>';
+          // Reset fields
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Submission failed');
+        }
+      } catch (err) {
+        console.error('Maintenance form error:', err);
+        btn.disabled    = false;
+        btn.textContent = 'Request A Plan →';
+        status.innerHTML = '<p style="color:#dc2626;margin:10px 0 0;font-size:14px;">Something went wrong — please call us at <a href="tel:+17138221308" style="color:#dc2626;">(713) 822-1308</a> or try again.</p>';
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
