@@ -283,6 +283,18 @@
       line-height: 1.65;
       margin-top: 12px;
     }
+    /* Override global .why-icon / .why-point h4 for dark-card context */
+    .why-visual .why-icon {
+      background: rgba(0,168,204,0.15);
+      border-color: rgba(0,168,204,0.35);
+      color: var(--cyan);       /* Lucide icons inherit this */
+    }
+    .why-visual .why-point h4 {
+      color: white;
+    }
+    .why-visual .why-point p {
+      color: rgba(255,255,255,0.68);
+    }
   </style>
 </head>
 <body>
