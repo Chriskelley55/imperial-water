@@ -289,9 +289,10 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from:    'Imperial Water Co. <reports@chriskelley.io>',
-          to:      [email],
-          subject: `Your Water Quality Report — ZIP ${zip}`,
+          from:     'Imperial Water Co. <reports@chriskelley.io>',
+          reply_to: ['kurt@imperialwaterco.com'],
+          to:       [email],
+          subject:  `Your Water Quality Report — ZIP ${zip}`,
           html:    buildEmailHTML(zip, reportData),
         }),
       });

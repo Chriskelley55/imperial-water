@@ -183,12 +183,19 @@ const SYSTEMS = {
   'TX1010004': {
     name: 'City of Bellaire',
     area: 'Bellaire',
-    source: 'Surface Water (Houston) + Groundwater Blend',
+    source: 'Surface Water — Purchased from City of Houston',
     population: 19401,
     hardness: { min_ppm: 130, max_ppm: 160, min_gpg: 7.6, max_gpg: 9.4, label: 'Hard' },
     ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX1010004',
     ccr_url: 'https://www.bellairetx.gov/246/Water-Quality',
-    contaminants: null, // Falls back to TX1010013 (similar profile — purchases from Houston)
+    contaminants: [
+      { name: 'Arsenic', category: 'heavy_metal', level: 2.15, unit: 'ppb', ewg_guideline: 0.004, epa_limit: 10, times_over_guideline: 538, concern: 'Carcinogen. Long-term exposure linked to skin, bladder, and lung cancer.', solution: 'Reverse osmosis removes arsenic from drinking water.' },
+      { name: 'Chromium (Hexavalent)', category: 'heavy_metal', level: 0.0573, unit: 'ppb', ewg_guideline: 0.02, epa_limit: null, times_over_guideline: 2.9, concern: 'Known carcinogen — no federal legal limit established.', solution: 'Reverse osmosis and anion exchange filtration are effective.' },
+      { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 24.5, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 163, concern: 'Formed when disinfectants react with organic matter in source water. Linked to cancer and reproductive effects.', solution: 'Whole-home carbon filtration reduces TTHMs at every tap in the house.' },
+      { name: 'Haloacetic Acids (HAA5)', category: 'disinfection_byproduct', level: 20.6, unit: 'ppb', ewg_guideline: 0.1, epa_limit: 60, times_over_guideline: 206, concern: 'Disinfection byproducts associated with increased cancer risk.', solution: 'Carbon filtration and reverse osmosis both reduce HAA5 levels.' },
+      { name: 'Radium (226 + 228)', category: 'radionuclide', level: 0.68, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 14, concern: 'Radioactive element associated with bone cancer and leukemia with long-term exposure.', solution: 'Reverse osmosis and ion exchange systems reduce radium.' },
+      { name: 'Uranium', category: 'radionuclide', level: 2.19, unit: 'pCi/L', ewg_guideline: 0.43, epa_limit: 20, times_over_guideline: 5.1, concern: 'Kidney toxicity and radiation exposure with long-term consumption.', solution: 'Reverse osmosis significantly reduces uranium levels.' },
+    ],
   },
 
   // ── Kingwood (Groundwater — different profile) ───────────────────────────
@@ -207,14 +214,88 @@ const SYSTEMS = {
       { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 1.18, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 7.9, concern: 'Much lower than surface water systems — but still above health guidelines.', solution: 'Carbon filtration handles residual DBPs in treated groundwater.' },
     ],
   },
+
+  // ── City of Katy (Groundwater) ───────────────────────────────────────────
+  'TX1010017': {
+    name: 'City of Katy',
+    area: 'Katy',
+    source: 'Groundwater — Chicot & Evangeline Aquifers',
+    population: 21894,
+    hardness: { min_ppm: 160, max_ppm: 230, min_gpg: 9.4, max_gpg: 13.5, label: 'Hard to Very Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX1010017',
+    ccr_url: 'https://www.cityofkaty.com/departments/public-works/water-quality',
+    contaminants: [
+      { name: 'Arsenic', category: 'heavy_metal', level: 2.37, unit: 'ppb', ewg_guideline: 0.004, epa_limit: 10, times_over_guideline: 592, concern: 'Naturally occurring carcinogen found in groundwater. Linked to bladder, lung, and skin cancer.', solution: 'Reverse osmosis removes arsenic effectively from drinking water.' },
+      { name: 'Chromium (Hexavalent)', category: 'heavy_metal', level: 0.048, unit: 'ppb', ewg_guideline: 0.02, epa_limit: null, times_over_guideline: 2.4, concern: 'Known carcinogen — no federal limit established. Found in Katy area groundwater.', solution: 'Reverse osmosis and anion exchange filtration remove hexavalent chromium.' },
+      { name: 'Radium (226 + 228)', category: 'radionuclide', level: 1.25, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 25, concern: 'Radioactive element associated with bone cancer and leukemia. Elevated in groundwater-sourced systems.', solution: 'Reverse osmosis and ion exchange systems reduce radium effectively.' },
+      { name: 'Uranium', category: 'radionuclide', level: 3.07, unit: 'pCi/L', ewg_guideline: 0.43, epa_limit: 20, times_over_guideline: 7.1, concern: 'Kidney toxicity and radiation exposure with long-term groundwater consumption.', solution: 'Reverse osmosis significantly reduces uranium.' },
+      { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 0.806, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 5.4, concern: 'Lower than surface water systems but still above health guidelines. Residual from disinfection treatment.', solution: 'Carbon filtration handles residual disinfection byproducts effectively.' },
+      { name: 'Haloacetic Acids (HAA5)', category: 'disinfection_byproduct', level: 0.927, unit: 'ppb', ewg_guideline: 0.1, epa_limit: 60, times_over_guideline: 9.3, concern: 'Disinfection byproducts associated with increased cancer risk.', solution: 'Carbon filtration and reverse osmosis both reduce HAA5 levels.' },
+    ],
+  },
+
+  // ── Missouri City ─────────────────────────────────────────────────────────
+  'TX0791014': {
+    name: 'Missouri City Water System',
+    area: 'Missouri City',
+    source: 'Surface Water — Brazos River',
+    population: 74259,
+    hardness: { min_ppm: 50, max_ppm: 240, min_gpg: 2.9, max_gpg: 14.0, label: 'Moderately Hard to Very Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX0791014',
+    ccr_url: 'https://www.missouricitytx.gov/government/departments/public-works',
+    contaminants: null, // falls back to TX0790005 — same Brazos River basin, comparable contaminant profile
+  },
+
+  // ── Richmond / Rosenberg ──────────────────────────────────────────────────
+  'TX0790017': {
+    name: 'Fort Bend County Water System — Richmond/Rosenberg',
+    area: 'Richmond / Rosenberg',
+    source: 'Surface Water — Brazos River',
+    population: 55000,
+    hardness: { min_ppm: 50, max_ppm: 250, min_gpg: 2.9, max_gpg: 14.6, label: 'Moderately Hard to Very Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX0790017',
+    ccr_url: 'https://www.fortbendcountytx.gov',
+    contaminants: null, // falls back to TX0790005 — same Fort Bend County / Brazos River system
+  },
+
+  // ── Pearland ──────────────────────────────────────────────────────────────
+  'TX0201450': {
+    name: 'City of Pearland Water System',
+    area: 'Pearland',
+    source: 'Surface Water — Gulf Coast Water Authority / Brazos River',
+    population: 130937,
+    hardness: { min_ppm: 100, max_ppm: 180, min_gpg: 5.8, max_gpg: 10.5, label: 'Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX0201450',
+    ccr_url: 'https://www.pearlandtx.gov/departments/public-works/utilities/water-quality',
+    contaminants: null, // falls back to TX1010013 — similar Gulf Coast surface water profile
+  },
+
+  // ── Katy Water Utility District ───────────────────────────────────────────
+  'TX0481218': {
+    name: 'Katy Water System',
+    area: 'Katy',
+    source: 'Groundwater — Chicot & Evangeline Aquifers',
+    population: 25000,
+    hardness: { min_ppm: 160, max_ppm: 230, min_gpg: 9.4, max_gpg: 13.5, label: 'Hard to Very Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX0481218',
+    ccr_url: 'https://www.cityofkaty.com/departments/public-works/water-quality',
+    contaminants: null, // falls back to TX1010017 — City of Katy, same groundwater aquifer system
+  },
 };
 
 // ─── Fallback chain for contaminant data ──────────────────────────────────
 const FALLBACKS = {
+  // Sugar Land sub-systems → Sugar Land Main
   'TX0790354': 'TX0790005',
   'TX0790299': 'TX0790005',
   'TX0790316': 'TX0790005',
-  'TX1010004': 'TX1010013',
+  // Fort Bend County surface water → Sugar Land Main (same Brazos River basin)
+  'TX0791014': 'TX0790005',
+  'TX0790017': 'TX0790005',
+  // Pearland → Houston (similar Gulf Coast surface water profile)
+  'TX0201450': 'TX1010013',
+  // Katy district → City of Katy (same groundwater aquifer system)
+  'TX0481218': 'TX1010017',
 };
 
 // ─── Handler ───────────────────────────────────────────────────────────────
