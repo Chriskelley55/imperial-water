@@ -235,6 +235,71 @@
     /* Why Reviews section */
     .why-reviews { background: var(--white); }
 
+    /* Before/After featured section */
+    .ba-section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .ba-header {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ba-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      background: rgba(40,180,133,0.1);
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+    .ba-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .ba-panel {
+      position: relative;
+      cursor: pointer;
+    }
+    .ba-panel + .ba-panel {
+      border-left: 3px solid var(--green);
+    }
+    .ba-panel img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+    .ba-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(0,0,0,0.55);
+      padding: 4px 10px;
+      border-radius: 99px;
+      backdrop-filter: blur(4px);
+    }
+    .ba-panel.after .ba-label {
+      background: rgba(40,180,133,0.85);
+    }
+
     /* Mobile */
     @media (max-width: 900px) {
       .gallery-grid {
@@ -254,6 +319,13 @@
     @media (max-width: 540px) {
       .gallery-grid {
         grid-template-columns: 1fr;
+      }
+      .ba-grid {
+        grid-template-columns: 1fr;
+      }
+      .ba-panel + .ba-panel {
+        border-left: none;
+        border-top: 3px solid var(--green);
       }
     }
   </style>
@@ -316,6 +388,24 @@
       <p class="section-sub">Photos submitted by real Imperial Water Co. customers. Before and after installs, filter replacements, and system upgrades.</p>
     </div>
 
+    <!-- Featured Before/After -->
+    <div class="ba-section">
+      <div class="ba-header">
+        <span class="ba-tag">Before &amp; After</span>
+        <span class="ba-title">Softener Install — Exterior by AC Unit</span>
+      </div>
+      <div class="ba-grid">
+        <div class="ba-panel before" onclick="openLightbox('images/before-install.jpg')">
+          <img src="images/before-install.jpg" alt="Before: exterior wall with pipes but no water softener installed" loading="lazy">
+          <span class="ba-label">Before</span>
+        </div>
+        <div class="ba-panel after" onclick="openLightbox('images/after-install.jpg')">
+          <img src="images/after-install.jpg" alt="After: water softener installed next to AC unit against brick wall" loading="lazy">
+          <span class="ba-label">After</span>
+        </div>
+      </div>
+    </div>
+
     <div class="gallery-grid">
       <div class="gallery-card" onclick="openLightbox('images/install-2330.jpg')">
         <img src="images/install-2330.jpg" alt="Whole-home water softener and pre-filter installed indoors — Sugar Land TX" loading="lazy">
@@ -356,6 +446,41 @@
         <img src="images/install-2334.jpg" alt="Whole-home water softener installed indoors in garage" loading="lazy">
         <div class="gallery-card-caption">
           <span class="gallery-caption-text">Whole-Home Softener — Garage</span>
+          <span class="gallery-tag">Install</span>
+        </div>
+      </div>
+      <div class="gallery-card" onclick="openLightbox('images/install-2338.jpg')">
+        <img src="images/install-2338.jpg" alt="Carbon filter tank and blue pre-filter housing installed in garage" loading="lazy">
+        <div class="gallery-card-caption">
+          <span class="gallery-caption-text">Carbon Filter + Pre-Filter — Garage</span>
+          <span class="gallery-tag">Install</span>
+        </div>
+      </div>
+      <div class="gallery-card" onclick="openLightbox('images/install-2351.jpg')">
+        <img src="images/install-2351.jpg" alt="Whole-home water softener and salt tank installed against clean white wall" loading="lazy">
+        <div class="gallery-card-caption">
+          <span class="gallery-caption-text">Whole-Home Softener — Clean Indoor Install</span>
+          <span class="gallery-tag">Install</span>
+        </div>
+      </div>
+      <div class="gallery-card" onclick="openLightbox('images/install-2343.jpg')">
+        <img src="images/install-2343.jpg" alt="Dual white tank water treatment system installed on exterior stucco wall" loading="lazy">
+        <div class="gallery-card-caption">
+          <span class="gallery-caption-text">Dual-Tank System — Stucco Exterior</span>
+          <span class="gallery-tag">Install</span>
+        </div>
+      </div>
+      <div class="gallery-card" onclick="openLightbox('images/install-2346.jpg')">
+        <img src="images/install-2346.jpg" alt="Water softener and salt tank installed in utility room" loading="lazy">
+        <div class="gallery-card-caption">
+          <span class="gallery-caption-text">Softener + Salt Tank — Utility Room</span>
+          <span class="gallery-tag">Install</span>
+        </div>
+      </div>
+      <div class="gallery-card" onclick="openLightbox('images/install-2354.jpg')">
+        <img src="images/install-2354.jpg" alt="Dual stainless steel tanks and salt tank installed in backyard corner" loading="lazy">
+        <div class="gallery-card-caption">
+          <span class="gallery-caption-text">Dual-Tank System — Backyard Install</span>
           <span class="gallery-tag">Install</span>
         </div>
       </div>
