@@ -876,4 +876,64 @@
       .footer-links { gap: 40px; }
       footer { padding: 40px 24px 24px; }
     }
+
+    /* ─── PHOTO STRIP ──────────────────────────── */
+    .photo-strip-wrap {
+      overflow: hidden;
+      background: var(--navy);
+      padding: 20px 0 16px;
+      position: relative;
+    }
+
+    .photo-strip-track {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+      animation: photoScroll 40s linear infinite;
+    }
+
+    .photo-strip-track:hover {
+      animation-play-state: paused;
+    }
+
+    .photo-strip-item {
+      flex-shrink: 0;
+      width: 220px;
+      height: 165px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .photo-strip-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .photo-strip-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .photo-strip-cta {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .photo-strip-cta:hover {
+      color: var(--cyan);
+    }
+
+    @keyframes photoScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
   
