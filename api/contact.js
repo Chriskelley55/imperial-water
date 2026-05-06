@@ -166,7 +166,7 @@ export default async function handler(req, res) {
     try {
       const payload = {
         from:    'Imperial Water Co. <reports@chriskelley.io>',
-        to:      ['kurt@imperialwaterco.com'],
+        to:      ['kurt@imperialwaterco.com', 'Imperial.water.company@gmail.com', 'chris@chriskelley.io'],
         subject: `New ${subjTag} — ${name}${subjLoc ? ' · ' + subjLoc : ''}`,
         html:    buildNotificationEmail({ firstName, lastName, phone, email, service, city, address, plan, message, sourcePage }),
       };
