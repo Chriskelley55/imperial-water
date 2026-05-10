@@ -460,63 +460,103 @@
   <!-- SECTION 4: SAMPLE RESULTS -->
   <section class="sample-section" style="background: var(--off-white);">
     <div class="section-header">
-      <div class="section-label">Example Report</div>
-      <h2 class="section-title">Here's What A Report Looks Like</h2>
-      <p class="section-sub">This is a static illustration using real Fort Bend County water data. Your results may vary by ZIP and neighborhood infrastructure.</p>
+      <div class="section-label">Example Reports</div>
+      <h2 class="section-title">Two ZIPs. Two Different Stories.</h2>
+      <p class="section-sub">Surface water and groundwater systems have completely different problems. Here's what real reports look like across the range.</p>
     </div>
     <div class="why why-grid">
 
-      <!-- LEFT: sample report card -->
-      <div>
+      <!-- LEFT: two stacked sample cards -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Card 1: Sugar Land — surface water, PFAS/DBP heavy -->
         <div class="sample-report-card">
           <div class="sample-report-header">
             <i data-lucide="map-pin" style="width:16px;height:16px;color:var(--blue);flex-shrink:0;"></i>
             ZIP: 77478 — Sugar Land, TX
             <span class="sample-badge">Sample</span>
           </div>
+          <!-- Score bar -->
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+            <div style="font-family:'Oswald',sans-serif;font-size:38px;font-weight:700;color:#dc2626;line-height:1;">23<span style="font-size:16px;color:var(--text-mid);font-weight:400;">/100</span></div>
+            <div style="flex:1;">
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:6px;">Water Quality Score</div>
+              <div style="height:7px;border-radius:4px;background:var(--border);overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:23%;border-radius:4px;background:#dc2626;"></div></div>
+              <div style="font-size:12px;font-weight:600;color:#dc2626;">Very Poor — treatment needed</div>
+            </div>
+          </div>
           <ul class="contaminant-list">
             <li class="contaminant-item">
               <span class="contaminant-name">PFAS (Total)</span>
-              <span class="status-pill pill-amber">DETECTED</span>
+              <span class="status-pill pill-amber">DETECTED · 60×</span>
             </li>
             <li class="contaminant-item">
               <span class="contaminant-name">Water Hardness</span>
               <span class="status-pill pill-amber">HIGH — 18 GPG</span>
             </li>
             <li class="contaminant-item">
-              <span class="contaminant-name">Chloramine</span>
-              <span class="status-pill pill-yellow">WITHIN LIMITS</span>
+              <span class="contaminant-name">DBPs (THMs)</span>
+              <span class="status-pill pill-amber">ELEVATED · 21×</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Arsenic</span>
+              <span class="status-pill pill-red">VERY HIGH · 125×</span>
             </li>
             <li class="contaminant-item">
               <span class="contaminant-name">Lead</span>
               <span class="status-pill pill-green">WITHIN LIMITS</span>
             </li>
+          </ul>
+          <div style="margin-top:14px;font-size:12px;color:var(--text-light);">Source: Brazos River (surface water)</div>
+        </div>
+
+        <!-- Card 2: Kingwood — groundwater, arsenic/radium heavy -->
+        <div class="sample-report-card">
+          <div class="sample-report-header">
+            <i data-lucide="map-pin" style="width:16px;height:16px;color:var(--blue);flex-shrink:0;"></i>
+            ZIP: 77339 — Kingwood, TX
+            <span class="sample-badge">Sample</span>
+          </div>
+          <!-- Score bar -->
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+            <div style="font-family:'Oswald',sans-serif;font-size:38px;font-weight:700;color:#ea580c;line-height:1;">39<span style="font-size:16px;color:var(--text-mid);font-weight:400;">/100</span></div>
+            <div style="flex:1;">
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:6px;">Water Quality Score</div>
+              <div style="height:7px;border-radius:4px;background:var(--border);overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:39%;border-radius:4px;background:#ea580c;"></div></div>
+              <div style="font-size:12px;font-weight:600;color:#ea580c;">Poor — treatment recommended</div>
+            </div>
+          </div>
+          <ul class="contaminant-list">
             <li class="contaminant-item">
-              <span class="contaminant-name">Nitrates</span>
-              <span class="status-pill pill-green">WITHIN LIMITS</span>
+              <span class="contaminant-name">Water Hardness</span>
+              <span class="status-pill pill-red">VERY HARD — 14 GPG</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Arsenic</span>
+              <span class="status-pill pill-red">VERY HIGH · 275×</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">Radium (226+228)</span>
+              <span class="status-pill pill-amber">ELEVATED · 11×</span>
+            </li>
+            <li class="contaminant-item">
+              <span class="contaminant-name">PFAS</span>
+              <span class="status-pill pill-green">NOT DETECTED</span>
             </li>
             <li class="contaminant-item">
               <span class="contaminant-name">DBPs (THMs)</span>
-              <span class="status-pill pill-amber">ELEVATED</span>
+              <span class="status-pill pill-yellow">LOW — 7.9×</span>
             </li>
           </ul>
+          <div style="margin-top:14px;font-size:12px;color:var(--text-light);">Source: Evangeline &amp; Chicot Aquifers (groundwater)</div>
         </div>
+
       </div>
 
       <!-- RIGHT: dark recommendation card -->
       <div class="why-visual">
-        <h3>Based On This Sample</h3>
-        <p class="intro">Imperial Water would recommend a whole-home carbon filter for chloramines and DBPs, an RO system for drinking water to address PFAS, and a water softener for the hardness. Here's the breakdown:</p>
-
-        <div class="why-point">
-          <div class="why-icon">
-            <i data-lucide="wind"></i>
-          </div>
-          <div>
-            <h4>Whole-Home Carbon Filtration</h4>
-            <p>Removes chloramines and reduces disinfection byproducts at every tap in the house — better water for cooking, bathing, and appliances alike.</p>
-          </div>
-        </div>
+        <h3>Every ZIP Has A Different Problem</h3>
+        <p class="intro">Surface water like Sugar Land deals with PFAS and disinfection byproducts. Groundwater like Kingwood has arsenic, radium, and extreme hardness. The right treatment depends entirely on what's actually in your water.</p>
 
         <div class="why-point">
           <div class="why-icon">
@@ -524,7 +564,17 @@
           </div>
           <div>
             <h4>Under-Sink Reverse Osmosis</h4>
-            <p>RO removes 95–99% of dissolved contaminants — including PFAS and any residual chemicals — from your drinking and cooking water.</p>
+            <p>Removes 95–99% of dissolved contaminants — PFAS, arsenic, radium, nitrates — right at your drinking tap. First priority for most homes in this region.</p>
+          </div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-icon">
+            <i data-lucide="wind"></i>
+          </div>
+          <div>
+            <h4>Whole-Home Carbon Filtration</h4>
+            <p>Targets disinfection byproducts (TTHMs, HAAs) at every tap — showers, laundry, cooking. More important for surface water systems like Sugar Land.</p>
           </div>
         </div>
 
@@ -534,7 +584,7 @@
           </div>
           <div>
             <h4>Water Softener</h4>
-            <p>At 18 GPG, your water is aggressively hard. A whole-home softener protects appliances, pipes, and fixtures — and pays for itself within 2–4 years.</p>
+            <p>Hard water destroys appliances and pipes over time. Kingwood's aquifer water is aggressively hard — a softener pays for itself in 2–4 years.</p>
           </div>
         </div>
 
