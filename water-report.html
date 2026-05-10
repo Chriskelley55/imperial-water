@@ -279,6 +279,19 @@
       margin-right: auto;
     }
 
+    /* Tighten the sample report section — less dead air */
+    .sample-section {
+      padding: 56px 48px;
+    }
+    .sample-section .section-header {
+      margin-bottom: 32px;
+    }
+    /* Align columns to top so the shorter left card doesn't float mid-air */
+    .sample-section .why-grid {
+      align-items: flex-start;
+      gap: 40px;
+    }
+
     /* Why-visual dark card layout for recommendation */
     .why-visual .why-point {
       margin-top: 20px;
@@ -445,7 +458,7 @@
   </section>
 
   <!-- SECTION 4: SAMPLE RESULTS -->
-  <section style="background: var(--off-white);">
+  <section class="sample-section" style="background: var(--off-white);">
     <div class="section-header">
       <div class="section-label">Example Report</div>
       <h2 class="section-title">Here's What A Report Looks Like</h2>

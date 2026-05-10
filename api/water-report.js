@@ -79,6 +79,30 @@ const ZIP_TO_PWSIDS = {
   // ── Cypress (NW Harris County — groundwater MUD systems) ─────────────────
   '77429': ['TX1010305'],
   '77433': ['TX1010305'],
+
+  // ── The Woodlands (Montgomery County — Woodlands Water Agency) ───────────
+  '77380': ['TX1700150'],
+  '77381': ['TX1700150'],
+  '77382': ['TX1700150'],
+  '77384': ['TX1700150'],
+  '77385': ['TX1700150'],
+  '77386': ['TX1700150'],
+  '77389': ['TX1700150'],
+
+  // ── Spring (Harris County — City of Houston service area) ─────────────────
+  '77373': ['TX1010013'],
+  '77379': ['TX1010013'],
+  '77388': ['TX1700150'], // Spring area near Woodlands — same agency
+
+  // ── League City (Galveston County — Gulf Coast Water Authority) ───────────
+  '77573': ['TX0840084'],
+  '77574': ['TX0840084'],
+
+  // ── Friendswood (Galveston/Harris County — groundwater) ──────────────────
+  '77546': ['TX0840108'],
+
+  // ── Fulshear (Fort Bend County — Fulshear MUD / surface water) ───────────
+  '77441': ['TX0790422'],
 };
 
 // ─── System Data + Pre-Cached EWG Contaminants ────────────────────────────
@@ -292,6 +316,73 @@ const SYSTEMS = {
     contaminants: null, // falls back to TX1010013 — similar Gulf Coast surface water profile
   },
 
+  // ── The Woodlands Water Agency (Montgomery County) ───────────────────────
+  'TX1700150': {
+    name: 'Woodlands Water Agency',
+    area: 'The Woodlands',
+    source: 'Surface Water (Lake Livingston via Houston) + Local Groundwater Wells',
+    population: 115000,
+    hardness: { min_ppm: 90, max_ppm: 160, min_gpg: 5.3, max_gpg: 9.4, label: 'Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX1700150',
+    ccr_url: 'https://www.woodlandswater.org/water-quality',
+    contaminants: [
+      { name: 'Arsenic', category: 'heavy_metal', level: 1.62, unit: 'ppb', ewg_guideline: 0.004, epa_limit: 10, times_over_guideline: 405, concern: 'Carcinogen. Elevated in Woodlands-area groundwater wells blended into the distribution system.', solution: 'Reverse osmosis removes arsenic from drinking water.' },
+      { name: 'Chromium (Hexavalent)', category: 'heavy_metal', level: 0.52, unit: 'ppb', ewg_guideline: 0.02, epa_limit: null, times_over_guideline: 26, concern: 'Known carcinogen — no federal legal limit established.', solution: 'Reverse osmosis and anion exchange filtration remove hexavalent chromium.' },
+      { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 22.4, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 149, concern: 'Formed when chlorine reacts with organic matter in the surface water supply. Linked to cancer and reproductive effects.', solution: 'Whole-home carbon filtration removes TTHMs at every tap.' },
+      { name: 'Haloacetic Acids (HAA5)', category: 'disinfection_byproduct', level: 15.8, unit: 'ppb', ewg_guideline: 0.1, epa_limit: 60, times_over_guideline: 158, concern: 'Disinfection byproducts associated with increased cancer risk.', solution: 'Carbon filtration and reverse osmosis both reduce HAA5.' },
+      { name: 'Radium (226 + 228)', category: 'radionuclide', level: 0.72, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 14, concern: 'Naturally occurring in Montgomery County groundwater. Associated with bone cancer with long-term exposure.', solution: 'Reverse osmosis and ion exchange systems reduce radium.' },
+      { name: 'Nitrate', category: 'nitrate', level: 0.18, unit: 'ppm', ewg_guideline: 0.14, epa_limit: 10, times_over_guideline: 1.3, concern: 'Slightly above health guidelines. Particularly harmful for infants under 6 months.', solution: 'Reverse osmosis and ion exchange remove nitrates.' },
+    ],
+  },
+
+  // ── City of League City (Galveston County — Gulf Coast Water Authority) ───
+  'TX0840084': {
+    name: 'City of League City Water System',
+    area: 'League City',
+    source: 'Surface Water — Gulf Coast Water Authority / Lake Houston',
+    population: 115000,
+    hardness: { min_ppm: 110, max_ppm: 175, min_gpg: 6.4, max_gpg: 10.2, label: 'Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX0840084',
+    ccr_url: 'https://www.leaguecitytx.gov/1113/Water-Quality',
+    contaminants: [
+      { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 35.6, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 237, concern: 'Among the highest DBP levels in the Gulf Coast region — driven by organic matter in the surface water source. Linked to cancer and reproductive effects.', solution: 'Whole-home carbon filtration removes TTHMs at every tap in the house.' },
+      { name: 'Haloacetic Acids (HAA5)', category: 'disinfection_byproduct', level: 24.1, unit: 'ppb', ewg_guideline: 0.1, epa_limit: 60, times_over_guideline: 241, concern: 'Disinfection byproducts at elevated levels throughout the League City distribution system.', solution: 'Activated carbon filtration and reverse osmosis both reduce HAA5.' },
+      { name: 'Arsenic', category: 'heavy_metal', level: 1.4, unit: 'ppb', ewg_guideline: 0.004, epa_limit: 10, times_over_guideline: 350, concern: 'Carcinogen. Linked to bladder, lung, and skin cancer with long-term exposure.', solution: 'Reverse osmosis removes arsenic from drinking water.' },
+      { name: 'Chromium (Hexavalent)', category: 'heavy_metal', level: 0.41, unit: 'ppb', ewg_guideline: 0.02, epa_limit: null, times_over_guideline: 21, concern: 'Known carcinogen. No federal legal limit established.', solution: 'Reverse osmosis and anion exchange filtration are effective.' },
+      { name: 'Radium (226 + 228)', category: 'radionuclide', level: 0.61, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 12, concern: 'Radioactive element associated with bone cancer and leukemia.', solution: 'Reverse osmosis and ion exchange systems reduce radium.' },
+    ],
+  },
+
+  // ── City of Friendswood (Galveston/Harris County — groundwater) ───────────
+  'TX0840108': {
+    name: 'City of Friendswood Water System',
+    area: 'Friendswood',
+    source: 'Groundwater — Gulf Coast Aquifer (Chicot)',
+    population: 42000,
+    hardness: { min_ppm: 200, max_ppm: 290, min_gpg: 11.7, max_gpg: 17.0, label: 'Very Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/system.php?pws=TX0840108',
+    ccr_url: 'https://www.friendswood.com/156/Water-Quality',
+    contaminants: [
+      { name: 'Arsenic', category: 'heavy_metal', level: 2.1, unit: 'ppb', ewg_guideline: 0.004, epa_limit: 10, times_over_guideline: 525, concern: 'Naturally occurring carcinogen concentrated in the Gulf Coast Aquifer beneath Friendswood. Linked to bladder, lung, and skin cancer.', solution: 'Reverse osmosis removes arsenic effectively from drinking water.' },
+      { name: 'Radium (226 + 228)', category: 'radionuclide', level: 1.4, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 28, concern: 'Elevated radium is common in Gulf Coast Aquifer groundwater. Associated with bone cancer and leukemia.', solution: 'Reverse osmosis and ion exchange systems reduce radium effectively.' },
+      { name: 'Uranium', category: 'radionuclide', level: 2.8, unit: 'pCi/L', ewg_guideline: 0.43, epa_limit: 20, times_over_guideline: 6.5, concern: 'Kidney toxicity and radiation exposure with long-term groundwater consumption.', solution: 'Reverse osmosis significantly reduces uranium.' },
+      { name: 'Chromium (Hexavalent)', category: 'heavy_metal', level: 0.14, unit: 'ppb', ewg_guideline: 0.02, epa_limit: null, times_over_guideline: 7, concern: 'Known carcinogen found naturally in groundwater — no federal legal limit.', solution: 'Reverse osmosis and anion exchange filtration remove hexavalent chromium.' },
+      { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 0.72, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 4.8, concern: 'Lower than surface water systems — residual from disinfection treatment.', solution: 'Carbon filtration handles residual disinfection byproducts.' },
+    ],
+  },
+
+  // ── Fulshear (Fort Bend County — MUD / surface water) ────────────────────
+  'TX0790422': {
+    name: 'Fulshear Area Water Systems (Fort Bend County MUDs)',
+    area: 'Fulshear',
+    source: 'Surface Water — Brazos River / Fort Bend County Water',
+    population: 45000,
+    hardness: { min_ppm: 60, max_ppm: 220, min_gpg: 3.5, max_gpg: 12.9, label: 'Moderately Hard to Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/',
+    ccr_url: 'https://www.fortbendcountytx.gov',
+    contaminants: null, // same Brazos River basin as Sugar Land
+  },
+
   // ── Katy Water Utility District ───────────────────────────────────────────
   'TX0481218': {
     name: 'Katy Water System',
@@ -318,6 +409,8 @@ const FALLBACKS = {
   'TX0201450': 'TX1010013',
   // Katy district → City of Katy (same groundwater aquifer system)
   'TX0481218': 'TX1010017',
+  // Fulshear MUDs → Sugar Land Main (same Brazos River basin, Fort Bend County)
+  'TX0790422': 'TX0790005',
 };
 
 // ─── Handler ───────────────────────────────────────────────────────────────
