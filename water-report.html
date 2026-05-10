@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Local Water Report | Imperial Water Co. — Sugar Land TX</title>
-  <meta name="description" content="Enter your ZIP code and get a free personalized water quality report for your area — contaminants, hardness, violations, and a treatment recommendation specific to Fort Bend County.">
+  <title>Your Local Water Report | Imperial Water Co. — Sugar Land, Cypress &amp; Kingwood TX</title>
+  <meta name="description" content="Enter your ZIP code and get a free personalized water quality report for your area — contaminants, hardness, violations, and a treatment recommendation. Serving Sugar Land, Cypress, Kingwood, and greater Houston.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://imperialwaterco.com/water-report.html">
-  <meta property="og:title" content="Your Local Water Report | Imperial Water Co. — Sugar Land TX">
-  <meta property="og:description" content="Free ZIP-based water quality report for Fort Bend County. See what's in your water — contaminants, hardness, violations — and get a treatment recommendation.">
+  <meta property="og:title" content="Your Local Water Report | Imperial Water Co. — Sugar Land, Cypress &amp; Kingwood TX">
+  <meta property="og:description" content="Free ZIP-based water quality report for Sugar Land, Cypress, Kingwood, and greater Houston. See what's in your water — contaminants, hardness, violations — and get a treatment recommendation.">
   <meta property="og:image" content="https://imperialwaterco.com/og-image.png">
   <meta property="og:site_name" content="Imperial Water Co.">
   <meta name="twitter:card" content="summary_large_image">
@@ -137,9 +137,13 @@
     .report-hero {
       padding: 80px 48px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .report-hero .hero-content {
       max-width: 680px;
+      width: 100%;
       margin: 0 auto;
     }
     .report-hero .zip-form {
@@ -409,7 +413,7 @@
           <i data-lucide="gauge"></i>
         </div>
         <h3>Hardness &amp; Minerals</h3>
-        <p>Fort Bend County water is consistently hard. Your report shows your area's hardness rating in grains per gallon and what that means for your appliances, your pipes, and your skin — in plain language.</p>
+        <p>Greater Houston water is consistently hard — Cypress and Kingwood groundwater can hit 20 GPG or higher. Your report shows your area's hardness rating in grains per gallon and what that means for your appliances, your pipes, and your skin — in plain language.</p>
         <ul class="service-detail-list">
           <li>Water hardness (GPG)</li>
           <li>Calcium &amp; magnesium levels</li>
@@ -521,22 +525,22 @@
     </div>
   </section>
 
-  <!-- SECTION 5: FORT BEND COUNTY WATER FACTS -->
+  <!-- SECTION 5: SERVICE AREA WATER FACTS -->
   <section style="background: var(--white);">
     <div class="section-header">
       <div class="section-label">Your Area</div>
-      <h2 class="section-title">Fort Bend County Water At A Glance</h2>
-      <p class="section-sub">Data sourced from EWG Tap Water Database and Texas Commission on Environmental Quality (TCEQ).</p>
+      <h2 class="section-title">Greater Houston Water At A Glance</h2>
+      <p class="section-sub">Data sourced from EWG Tap Water Database and Texas Commission on Environmental Quality (TCEQ). We serve Sugar Land, Cypress, Kingwood, and surrounding communities.</p>
     </div>
 
     <div class="stat-row-wide">
       <div class="stat-item">
-        <div class="stat-num">Hard</div>
-        <div class="stat-label">Water Classification</div>
+        <div class="stat-num">Hard–<br>Extreme</div>
+        <div class="stat-label">Water Classification Across Service Area</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">18 GPG</div>
-        <div class="stat-label">Avg Hardness Rating</div>
+        <div class="stat-num">10–20 GPG</div>
+        <div class="stat-label">Hardness Range by Neighborhood</div>
       </div>
       <div class="stat-item">
         <div class="stat-num">3+</div>
@@ -548,7 +552,7 @@
       </div>
     </div>
 
-    <p class="data-note">Data reflects publicly available municipal water quality reports. Your actual water may vary by neighborhood and infrastructure age.</p>
+    <p class="data-note">Data reflects publicly available municipal water quality reports. Hardness and contaminant levels vary by ZIP — enter yours above for your specific results.</p>
   </section>
 
   <!-- SECTION 6: ZIP FORM CTA -->
@@ -749,7 +753,12 @@
       const area     = data.system?.area || 'your area';
       const areaShort = area.replace(/\s*\(.*?\)\s*/, '').trim() || area;
       const isFortBend = ['Sugar Land', 'River Park', 'Greatwood', 'New Territory', 'Missouri City', 'Richmond'].some(n => areaShort.includes(n));
-      const localRegion = isFortBend ? 'Fort Bend County' : 'the greater Houston region';
+      const isCypress  = areaShort.includes('Cypress');
+      const isKingwood = areaShort.includes('Kingwood');
+      const localRegion = isFortBend ? 'Fort Bend County'
+                        : isCypress  ? 'northwest Harris County'
+                        : isKingwood ? 'northeast Harris County'
+                        : 'the greater Houston region';
       const intro = recs.length >= 3
         ? `Your ${area} water has three issues worth addressing. Here's how I'd approach it — in priority order.`
         : recs.length === 2

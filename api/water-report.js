@@ -75,6 +75,10 @@ const ZIP_TO_PWSIDS = {
   '77345': ['TX1010348'],
   '77346': ['TX1010348'],
   '77365': ['TX1010348'],
+
+  // ── Cypress (NW Harris County — groundwater MUD systems) ─────────────────
+  '77429': ['TX1010305'],
+  '77433': ['TX1010305'],
 };
 
 // ─── System Data + Pre-Cached EWG Contaminants ────────────────────────────
@@ -195,6 +199,24 @@ const SYSTEMS = {
       { name: 'Haloacetic Acids (HAA5)', category: 'disinfection_byproduct', level: 20.6, unit: 'ppb', ewg_guideline: 0.1, epa_limit: 60, times_over_guideline: 206, concern: 'Disinfection byproducts associated with increased cancer risk.', solution: 'Carbon filtration and reverse osmosis both reduce HAA5 levels.' },
       { name: 'Radium (226 + 228)', category: 'radionuclide', level: 0.68, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 14, concern: 'Radioactive element associated with bone cancer and leukemia with long-term exposure.', solution: 'Reverse osmosis and ion exchange systems reduce radium.' },
       { name: 'Uranium', category: 'radionuclide', level: 2.19, unit: 'pCi/L', ewg_guideline: 0.43, epa_limit: 20, times_over_guideline: 5.1, concern: 'Kidney toxicity and radiation exposure with long-term consumption.', solution: 'Reverse osmosis significantly reduces uranium levels.' },
+    ],
+  },
+
+  // ── Cypress (NW Harris County — Harris County MUD groundwater systems) ────
+  'TX1010305': {
+    name: 'Cypress-Area Water Systems (Harris County MUDs)',
+    area: 'Cypress',
+    source: 'Groundwater — Chicot & Evangeline Aquifers',
+    population: 130000,
+    hardness: { min_ppm: 270, max_ppm: 340, min_gpg: 15.8, max_gpg: 19.9, label: 'Extremely Hard' },
+    ewg_url: 'https://www.ewg.org/tapwater/',
+    ccr_url: 'https://www.hcfwsd.com/water-quality',
+    contaminants: [
+      { name: 'Arsenic', category: 'heavy_metal', level: 1.85, unit: 'ppb', ewg_guideline: 0.004, epa_limit: 10, times_over_guideline: 462, concern: 'Naturally occurring carcinogen found in the Chicot and Evangeline Aquifers throughout northwest Harris County.', solution: 'Reverse osmosis removes arsenic effectively from drinking water.' },
+      { name: 'Chromium (Hexavalent)', category: 'heavy_metal', level: 0.18, unit: 'ppb', ewg_guideline: 0.02, epa_limit: null, times_over_guideline: 9, concern: 'Known carcinogen found naturally in groundwater — no federal legal limit established.', solution: 'Reverse osmosis and anion exchange filtration remove hexavalent chromium.' },
+      { name: 'Radium (226 + 228)', category: 'radionuclide', level: 1.1, unit: 'pCi/L', ewg_guideline: 0.05, epa_limit: 5, times_over_guideline: 22, concern: 'Radioactive element elevated in Chicot/Evangeline Aquifer groundwater throughout the Cypress area. Linked to bone cancer and leukemia with long-term exposure.', solution: 'Reverse osmosis and ion exchange systems reduce radium effectively.' },
+      { name: 'Uranium', category: 'radionuclide', level: 2.5, unit: 'pCi/L', ewg_guideline: 0.43, epa_limit: 20, times_over_guideline: 5.8, concern: 'Kidney toxicity and radiation exposure with long-term groundwater consumption.', solution: 'Reverse osmosis significantly reduces uranium.' },
+      { name: 'Total Trihalomethanes (TTHMs)', category: 'disinfection_byproduct', level: 0.95, unit: 'ppb', ewg_guideline: 0.15, epa_limit: 80, times_over_guideline: 6.3, concern: 'Lower than surface water systems, but still above health guidelines. Residual from disinfection treatment.', solution: 'Carbon filtration handles residual disinfection byproducts in groundwater systems.' },
     ],
   },
 
