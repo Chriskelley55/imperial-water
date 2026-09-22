@@ -937,3 +937,11 @@
       100% { transform: translateX(-50%); }
     }
   
+
+    .service-detail-list li a {
+      color: var(--text-mid);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26,111,168,.28);
+      transition: color .15s, border-color .15s;
+    }
+    .service-detail-list li a:hover { color: var(--blue); border-bottom-color: var(--blue); }

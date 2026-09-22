@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imperial Water Co. — Services | Water Treatment Sugar Land TX</title>
-  <meta name="description" content="Well water treatment, municipal water filtration, water softeners, reverse osmosis, and filter service in Sugar Land, TX. Imperial Water Co. installs and services it all.">
+  <title>Water Treatment Services in Sugar Land | Imperial Water Co.</title>
+  <meta name="description" content="Well water treatment, filtration, softeners, and reverse osmosis in Sugar Land, TX. Installed and serviced by a local owner. Call (713) 822-1308.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://imperialwaterco.com/services.html">
-  <meta property="og:title" content="Imperial Water Co. — Services | Water Treatment Sugar Land TX">
-  <meta property="og:description" content="Well water treatment, municipal water filtration, water softeners, reverse osmosis, and filter service in Sugar Land, TX.">
+  <meta property="og:title" content="Water Treatment Services in Sugar Land | Imperial Water Co.">
+  <meta property="og:description" content="Well water treatment, filtration, softeners, and reverse osmosis in Sugar Land, TX. Installed and serviced by a local owner. Call (713) 822-1308.">
   <meta property="og:image" content="https://imperialwaterco.com/og-image.png">
   <meta property="og:site_name" content="Imperial Water Co.">
   <meta name="twitter:card" content="summary_large_image">
@@ -36,6 +36,17 @@
     .services-hero .hero-ctas {
       justify-content: center;
     }
+    /* center the hero subheading box (it has a max-width, so give it auto side margins) */
+    .services-hero .hero-content p { margin-left: auto; margin-right: auto; }
+    /* FAQ accordion */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .faq-item { border: 1px solid var(--border); border-radius: 12px; background: var(--white); overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+    .faq-item[open] { border-color: var(--cyan); box-shadow: 0 8px 24px rgba(0,168,204,0.08); }
+    .faq-item summary { list-style: none; cursor: pointer; padding: 20px 24px; font-weight: 600; font-size: 17px; color: var(--navy); display: flex; justify-content: space-between; align-items: center; gap: 16px; text-align: left; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; font-size: 26px; font-weight: 400; color: var(--cyan); line-height: 1; transition: transform .25s; flex-shrink: 0; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-a { padding: 0 24px 22px; color: var(--text-mid); line-height: 1.65; font-size: 15.5px; text-align: left; }
   </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZP5LDGQJ4T"></script>
@@ -47,6 +58,61 @@
 </script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+<!-- Structured data: Service + Breadcrumb -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Water Treatment Services",
+      "serviceType": "Water treatment, filtration, and softening",
+      "url": "https://imperialwaterco.com/services.html",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Imperial Water Co.",
+        "telephone": "+1-713-822-1308",
+        "url": "https://imperialwaterco.com"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Sugar Land" },
+        { "@type": "City", "name": "Cypress" },
+        { "@type": "City", "name": "Kingwood" },
+        { "@type": "City", "name": "Houston" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Water Treatment Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Well Water Treatment" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Municipal Water Filtration" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Water Softener Installation" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reverse Osmosis Systems" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Filter Replacement and Service" } }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://imperialwaterco.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://imperialwaterco.com/services.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How much does a water treatment system cost in Sugar Land?", "acceptedAnswer": { "@type": "Answer", "text": "Every home is different — well vs. city water, your hardness level, and which contaminants you're dealing with all change the right system. So we quote each project individually after assessing your water, and we guarantee low, competitive pricing with no pressure and no upselling. You'll never pay for a system you don't need." } },
+        { "@type": "Question", "name": "Do you offer free quotes?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — every quote and water assessment is free and no-obligation. Kurt looks at your water, your system, and your home, then recommends only what actually makes sense for you." } },
+        { "@type": "Question", "name": "Do you work on both well water and city water?", "acceptedAnswer": { "@type": "Answer", "text": "Both. We handle iron, sulfur, bacteria, and pH issues on well water, and chlorine, hardness, and disinfection byproducts on municipal city lines." } },
+        { "@type": "Question", "name": "How long does an installation take?", "acceptedAnswer": { "@type": "Answer", "text": "Most whole-home installations are finished in a single day. We'll give you a clear timeline when we quote your project so there are no surprises." } },
+        { "@type": "Question", "name": "What areas do you serve?", "acceptedAnswer": { "@type": "Answer", "text": "Sugar Land and the surrounding Fort Bend and greater Houston area — including Cypress, Kingwood, and nearby communities." } },
+        { "@type": "Question", "name": "How do I know which system I need?", "acceptedAnswer": { "@type": "Answer", "text": "Start with a free assessment or our online Water Report. We review your water and match you to the right softener, filtration, or reverse osmosis setup — no guesswork." } }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -76,7 +142,7 @@
   <section class="hero services-hero">
     <div class="hero-content">
       <div class="section-label">What We Do</div>
-      <h1>Water Treatment<br><em>Built For You.</em></h1>
+      <h1>Sugar Land Water Treatment<br><em>Built For You.</em></h1>
       <p>From well water to municipal lines — we install, service, and maintain systems matched to your water, your home, and your family.</p>
       <div class="hero-ctas">
         <a href="index.html#contact" class="btn-primary">Get a Free Quote →</a>
@@ -90,7 +156,7 @@
     <div class="section-header">
       <div class="section-label">Well Water Systems</div>
       <h2 class="section-title">From The Ground Up</h2>
-      <p class="section-sub">Well water skips city treatment entirely — which means iron, bacteria, sulfur, and pH imbalances are your problem. We fix that.</p>
+      <p class="section-sub">Well water skips city treatment entirely — which means iron, bacteria, sulfur, and pH imbalances are your problem. We fix that. <a href="well-water-treatment-sugar-land.html" style="color:var(--cyan);font-weight:600;white-space:nowrap;">See our well water treatment in Sugar Land →</a></p>
     </div>
     <div class="services services-grid">
 
@@ -144,7 +210,7 @@
     <div class="section-header">
       <div class="section-label">City Water Treatment</div>
       <h2 class="section-title">Clean Doesn't Always Mean Pure</h2>
-      <p class="section-sub">Municipal water is treated — but treated water still contains chlorine, chloramines, fluoride, and chemical byproducts that affect taste, smell, and long-term health.</p>
+      <p class="section-sub">Municipal water is treated — but treated water still contains chlorine, chloramines, fluoride, and chemical byproducts that affect taste, smell, and long-term health. <a href="water-filtration-systems-sugar-land.html" style="color:var(--cyan);font-weight:600;white-space:nowrap;">See our water filtration systems in Sugar Land →</a></p>
     </div>
     <div class="services services-grid">
 
@@ -181,7 +247,7 @@
           <i data-lucide="filter"></i>
         </div>
         <h3>Reverse Osmosis (RO)</h3>
-        <p>RO pushes water through a semi-permeable membrane that removes 95–99% of dissolved contaminants — including microplastics, PFAS (forever chemicals), heavy metals, and more.</p>
+        <p>RO pushes water through a semi-permeable membrane that removes 95–99% of dissolved contaminants — including microplastics, PFAS (forever chemicals), heavy metals, and more. <a href="reverse-osmosis-sugar-land.html" style="color:var(--cyan);font-weight:600;">See reverse osmosis in Sugar Land →</a></p>
         <ul class="service-detail-list">
           <li>Under-sink RO systems</li>
           <li>Whole-home RO options</li>
@@ -198,7 +264,7 @@
     <div class="section-header">
       <div class="section-label">Hard Water Solutions</div>
       <h2 class="section-title">Hard Water Costs You More Than You Think</h2>
-      <p class="section-sub">Fort Bend County water is hard. That means calcium and magnesium are slowly calcifying your pipes, destroying your appliances, and shortening the life of everything water touches.</p>
+      <p class="section-sub">Fort Bend County water is hard. That means calcium and magnesium are slowly calcifying your pipes, destroying your appliances, and shortening the life of everything water touches. <a href="water-softener-installation-sugar-land.html" style="color:var(--cyan);font-weight:600;white-space:nowrap;">See our water softener installation in Sugar Land →</a></p>
     </div>
     <div class="why why-grid">
 
@@ -321,6 +387,41 @@
         </ul>
       </div>
 
+    </div>
+  </section>
+
+  <!-- SECTION: FAQ -->
+  <section style="background: var(--off-white);" id="faq">
+    <div class="section-header">
+      <div class="section-label">Good To Know</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Straight answers on pricing, systems, and what to expect.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>How much does a water treatment system cost in Sugar Land?</summary>
+        <div class="faq-a">Every home is different — well vs. city water, your hardness level, and which contaminants you're dealing with all change the right system. So we quote each project individually after assessing your water, and we guarantee low, competitive pricing with no pressure and no upselling. You'll never pay for a system you don't need.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Do you offer free quotes?</summary>
+        <div class="faq-a">Yes — every quote and water assessment is free and no-obligation. Kurt looks at your water, your system, and your home, then recommends only what actually makes sense for you.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Do you work on both well water and city water?</summary>
+        <div class="faq-a">Both. We handle iron, sulfur, bacteria, and pH issues on well water, and chlorine, hardness, and disinfection byproducts on municipal city lines.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How long does an installation take?</summary>
+        <div class="faq-a">Most whole-home installations are finished in a single day. We'll give you a clear timeline when we quote your project so there are no surprises.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What areas do you serve?</summary>
+        <div class="faq-a">Sugar Land and the surrounding Fort Bend and greater Houston area — including Cypress, Kingwood, and nearby communities.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How do I know which system I need?</summary>
+        <div class="faq-a">Start with a free assessment or our online Water Report. We review your water and match you to the right softener, filtration, or reverse osmosis setup — no guesswork.</div>
+      </details>
     </div>
   </section>
 
